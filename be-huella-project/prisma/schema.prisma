@@ -11,29 +11,30 @@ datasource db {
 }
 
 model User {
-  id         String @id @default(uuid())
+  id         String  @id @default(uuid())
   username   String
   email      String
   password   String
   phone      String
-  profilePic String
+  profilePic String?
   location   String
   pets       Pet[]
 }
 
 model Pet {
-  id           String  @id @default(uuid())
-  name         String?
-  type         String
-  race         String?
-  weight       Int?
-  age          Int?
-  photo        String
-  whenWasLost  String?
-  whenWasFound String?
-  gender       String
-  necklace     Boolean
-  lostOrFound  String
-  User         User    @relation(fields: [userId], references: [id])
-  userId       String
+  id          String   @id @default(uuid())
+  name        String?
+  type        String
+  race        String?
+  weight      Int?
+  age         Int?
+  photo       String
+  when        DateTime
+  gender      String
+  necklace    Boolean
+  lostOrFound String
+  location    String
+  User        User     @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt   DateTime @default(now())
 }
