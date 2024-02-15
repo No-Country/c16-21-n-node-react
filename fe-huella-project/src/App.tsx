@@ -1,12 +1,12 @@
 import {RouterProvider,} from "react-router-dom";
-import { appProvider } from './routes/appProvider.tsx';
+import { routesProvider } from './routes/appRouter.tsx';
 
 
 
 export const App = () => {
   return (
     <>
-        <RouterProvider router={appProvider}/>
+        <RouterProvider router={routesProvider}/>
     </>
   )
 }
