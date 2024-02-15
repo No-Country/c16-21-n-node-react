@@ -1,5 +1,5 @@
 import {RouterProvider,} from "react-router-dom";
-import { routesProvider } from "./routes/AppRouter.tsx";
+import { router } from "./routes/AppRouter.tsx";
 
 
 
@@ -7,7 +7,7 @@ import { routesProvider } from "./routes/AppRouter.tsx";
 export const App = () => {
   return (
     <>
-        <RouterProvider router={routesProvider}/>
+        <RouterProvider router={router}/>
     </>
   )
 }

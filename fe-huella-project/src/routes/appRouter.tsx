@@ -2,7 +2,7 @@
     import { Home } from "../pages/Home";
     
 
-   export const routesProvider = createHashRouter([
+   export const router = createHashRouter([
 
         {
           path: "/",
