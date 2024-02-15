@@ -1,0 +1,290 @@
+paths:
+  /api/users/login:
+    post:
+      summary: Envía los datos del usuario para autenticarse en el sistema.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email del usuario.
+                password:
+                  type: string
+                  format: password
+                  description: Contraseña del usuario.
+              required:
+                - email
+                - password
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
+        "401":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/ServerError"
+  /api/users/register:
+    post:
+      summary: Envía los datos del usuario para registrarse en el sistema.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Nombre de usuario del usuario.
+                email:
+                  type: string
+                  description: Email del usuario.
+                password:
+                  type: string
+                  format: password
+                  description: Contraseña del usuario.
+                phone:
+                  type: string
+                  description: Teléfono del usuario.
+                profilePic:
+                  type: string
+                  description: Imágen de perfil del usuario.
+                location:
+                  type: string
+                  description: Ubicación del usuario.
+              required:
+                - username
+                - password
+                - email
+                - phone
+                - location
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
+        "401":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/ServerError"
+  /api/users/{uid}:
+    get:
+      summary: Busca un usuario por su ID en la base de datos y devuelve sus datos si existe.
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/token"  # Inclusión del parámetro token
+      responses:
+        "200":
+          description: 
+            $ref: "#/components/responses/OK"  # Referencia a la descripción de la respuesta 200
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "403":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/ServerError"
+  /api/users/update:
+    put:
+      summary: Actualiza los datos de un usuario autenticado.
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/token"
+        - $ref: "#/components/parameters/uid"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Nombre de usuario del usuario.
+                email:
+                  type: string
+                  description: Email del usuario.
+                password:
+                  type: string
+                  format: password
+                  description: Contraseña del usuario.
+                phone:
+                  type: string
+                  description: Teléfono del usuario.
+                profilePic:
+                  type: string
+                  description: Imagen de perfil del usuario.
+                location:
+                  type: string
+                  description: Ubicación del usuario.
+              required: []  # Ningún campo es obligatorio
+      responses:
+        "200":
+          description: 
+            $ref: "#/components/responses/OK"  # Referencia a la descripción de la respuesta 200
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "403":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/ServerError"
+  /api/users/delete:
+    delete:
+      summary: Busca un usuario por su ID en la base de datos y lo elimina.
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/token"
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
+        "403":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/ServerError"
+components:
+  responses:
+    OK:
+      description: "(OK) Operación realizada con éxito."
+    Unauthorized:
+      description: "(Unauthorized) No tiene los permisos para realizar esta acción."
+    NotFound:
+      description: "(NotFound) No se encontró la información solicitada."
+    BadRequest:
+      description: "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados."
+    ServerError:
+      description: "(Server Error) Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD."
+  parameters:
+    token:
+      in: header
+      name: token
+      description: "Token de autenticación de la API."
+      required: true
+      schema:
+        type: string
+    uid:
+      in: path
+      name: uid
+      required: true
+      schema:
+        type: string
+        description: "ID del usuario a buscar en la base de datos."
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID único del usuario.
+        username:
+          type: string
+          description: Nombre de usuario del usuario.
+        email:
+          type: string
+          format: email
+          description: Dirección de correo electrónico del usuario.
+        phone:
+          type: string
+          description: Número de teléfono del usuario.
+        profilePic:
+          type: string
+          description: URL de la imagen de perfil del usuario.
+        location:
+          type: string
+          description: Ubicación del usuario.
+        pets:
+          type: array
+          description: Mascotas publicadas por el usuario.
+          items:
+            type: object
+  # schemas:
+  #   Cart:
+  #     type: object
+  #     properties:
+  #       _id:
+  #         type: String
+  #         description: Id autogenerado por mongodb.
+  #       products:
+  #         type: Array
+  #         description: Lista de productos
+  #         items:
+  #           type: object
+  #           properties:
+  #             pid:
+  #               type: String
+  #               description: ObjectId del producto
+  #             quantity:
+  #               type: Number
+  #               description: Cantidad de unidades del producto
+  #     example:
+  #       _id: ObjectId("asETDFG1234jnuhg8fd.214asFSDE3")
+  #       products:
+  #         - pid: ObjectId("64010a6571f4e310587dbb00")
+  #           quantity: 5
+  #         - pid: ObjectId("645ad03732d3d81586ef6968")
+  #           quantity: 1
+  #         - pid: ObjectId("645ad04032d3d81586ef6974")
+  #           quantity: 1
+  #   Ticket:
+  #     type: object
+  #     properties:
+  #       code:
+  #         type: String
+  #         description: Codigo único del ticket generado por uuid.
+  #       _id:
+  #         type: String
+  #         description: Id autogenerado por mongodb.
+  #       purchase_datetime:
+  #         type: String
+  #         description: Hora exacta en la que fue generado el ticket.
+  #       amount:
+  #         type: Number
+  #         description: Precio total de la compra.
+  #       purchaser:
+  #         type: String
+  #         description: Email del comprador.
+  #     example:
+  #       _id: ObjectId("asETDFG1234jnuhg8fd.214asFSDE3")
+  #       code: "950ba25c-e8df-4eb6-8d81-2e4d5563a22b"
+  #       amount: 350000
+  #       purchase_datetime: "2023-08-12T17:57:31.530Z"
+  #       purchaser: "test@test.com"
+  # requestBodies:
+  #   UpdateCart:
+  #     type: Array
+  #     description: Lista de productos
+  #     items:
+  #       type: object
+  #       properties:
+  #         pid:
+  #           type: String
+  #           description: ObjectId del producto
+  #         quantity:
+  #           type: Number
+  #           description: Cantidad de unidades del producto
+  #     example:
+  #       - pid: ObjectId("64010a6571f4e310587dbb00")
+  #         quantity: 5
+  #       - pid: ObjectId("645ad03732d3d81586ef6968")
+  #         quantity: 1
+  #       - pid: ObjectId("645ad04032d3d81586ef6974")
+  #         quantity: 1
+  #   UpdateQuantity:
+  #     type: object
+  #     description: Cantidad del producto que se quiere agregar.
+  #     properties:
+  #       quantity:
+  #         type: Number
+  #         description: Cantidad de unidades del producto
+  #     example:
+  #       quantity: 5
