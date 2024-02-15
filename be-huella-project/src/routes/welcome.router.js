@@ -3,12 +3,12 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
-    return res.json({'msg: {username} desde method Get': req.session.user});
+router.get('/', (req, res) => {
+    return res.send('msg: {username} desde method Get');
 });
   
-  router.post('/', async (req, res) => {
-    return res.json({'msg: {username} desde method Post': req.session.user});
+  router.post('/', (req, res) => {
+    return res.send('msg: {username} desde method Post');
   });
   
   export default router;
