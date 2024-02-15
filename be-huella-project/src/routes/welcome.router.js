@@ -1,4 +1,3 @@
-import { prisma } from '../../config/dbConnection.js';
 import { Router } from 'express';
 
 const router = Router();
