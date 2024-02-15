@@ -152,6 +152,21 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "500":
           $ref: "#/components/responses/ServerError"
+  # /api/users/alerts:
+  #   post:
+  #     summary: Activa o desactiva las alertas.
+  #     tags:
+  #       - Users
+  #     parameters:
+  #       - $ref: "#/components/parameters/token"
+  #     responses:
+  #       "200":
+  #         $ref: "#/components/responses/OK"
+  #       "403":
+  #         $ref: "#/components/responses/Unauthorized"
+  #       "500":
+  #         $ref: "#/components/responses/ServerError"
+
 components:
   responses:
     OK:
