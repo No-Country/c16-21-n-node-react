@@ -1,11 +1,13 @@
+import {RouterProvider,} from "react-router-dom";
+import { router } from "./routes/AppRouter.tsx";
 
-function App() {
 
+
+
+export const App = () => {
   return (
-    <div>
-      <h1>App Huellas</h1>
-    </div>
+    <>
+        <RouterProvider router={router}/>
+    </>
   )
 }
-
-export default App
