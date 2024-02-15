@@ -23,11 +23,16 @@ paths:
                 - password
       responses:
         "200":
-          $ref: "#/components/responses/OK"
+          description: "(OK) Operación realizada con éxito."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
         "401":
           $ref: "#/components/responses/BadRequest"
         "500":
           $ref: "#/components/responses/ServerError"
+
   /api/users/register:
     post:
       summary: Envía los datos del usuario para registrarse en el sistema.
@@ -81,8 +86,7 @@ paths:
         - $ref: "#/components/parameters/token"  # Inclusión del parámetro token
       responses:
         "200":
-          description: 
-            $ref: "#/components/responses/OK"  # Referencia a la descripción de la respuesta 200
+          description: "(OK) Operación realizada con éxito."
           content:
             application/json:
               schema:
@@ -222,84 +226,12 @@ components:
           description: Mascotas publicadas por el usuario.
           items:
             type: object
-  # schemas:
-  #   Cart:
-  #     type: object
-  #     properties:
-  #       _id:
-  #         type: String
-  #         description: Id autogenerado por mongodb.
-  #       products:
-  #         type: Array
-  #         description: Lista de productos
-  #         items:
-  #           type: object
-  #           properties:
-  #             pid:
-  #               type: String
-  #               description: ObjectId del producto
-  #             quantity:
-  #               type: Number
-  #               description: Cantidad de unidades del producto
-  #     example:
-  #       _id: ObjectId("asETDFG1234jnuhg8fd.214asFSDE3")
-  #       products:
-  #         - pid: ObjectId("64010a6571f4e310587dbb00")
-  #           quantity: 5
-  #         - pid: ObjectId("645ad03732d3d81586ef6968")
-  #           quantity: 1
-  #         - pid: ObjectId("645ad04032d3d81586ef6974")
-  #           quantity: 1
-  #   Ticket:
-  #     type: object
-  #     properties:
-  #       code:
-  #         type: String
-  #         description: Codigo único del ticket generado por uuid.
-  #       _id:
-  #         type: String
-  #         description: Id autogenerado por mongodb.
-  #       purchase_datetime:
-  #         type: String
-  #         description: Hora exacta en la que fue generado el ticket.
-  #       amount:
-  #         type: Number
-  #         description: Precio total de la compra.
-  #       purchaser:
-  #         type: String
-  #         description: Email del comprador.
-  #     example:
-  #       _id: ObjectId("asETDFG1234jnuhg8fd.214asFSDE3")
-  #       code: "950ba25c-e8df-4eb6-8d81-2e4d5563a22b"
-  #       amount: 350000
-  #       purchase_datetime: "2023-08-12T17:57:31.530Z"
-  #       purchaser: "test@test.com"
-  # requestBodies:
-  #   UpdateCart:
-  #     type: Array
-  #     description: Lista de productos
-  #     items:
-  #       type: object
-  #       properties:
-  #         pid:
-  #           type: String
-  #           description: ObjectId del producto
-  #         quantity:
-  #           type: Number
-  #           description: Cantidad de unidades del producto
-  #     example:
-  #       - pid: ObjectId("64010a6571f4e310587dbb00")
-  #         quantity: 5
-  #       - pid: ObjectId("645ad03732d3d81586ef6968")
-  #         quantity: 1
-  #       - pid: ObjectId("645ad04032d3d81586ef6974")
-  #         quantity: 1
-  #   UpdateQuantity:
-  #     type: object
-  #     description: Cantidad del producto que se quiere agregar.
-  #     properties:
-  #       quantity:
-  #         type: Number
-  #         description: Cantidad de unidades del producto
-  #     example:
-  #       quantity: 5
+    Token:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: El token de acceso generado para autenticación.
+        expiresIn:
+          type: integer
+          description: El tiempo en segundos hasta que el token expire.
