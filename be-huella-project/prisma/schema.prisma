@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Users {
   id         String  @id @default(uuid())
   username   String
   email      String
@@ -18,10 +18,10 @@ model User {
   phone      String
   profilePic String?
   location   String
-  pets       Pet[]
+  pets       Pets[]
 }
 
-model Pet {
+model Pets {
   id          String   @id @default(uuid())
   name        String?
   type        String
