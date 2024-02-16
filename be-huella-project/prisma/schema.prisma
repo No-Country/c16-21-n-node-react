@@ -19,6 +19,7 @@ model User {
   profilePic String?
   location   String
   pets       Pet[]
+  @@map("users")
 }
 
 model Pet {
@@ -37,4 +38,5 @@ model Pet {
   User        User     @relation(fields: [userId], references: [id])
   userId      String
   createdAt   DateTime @default(now())
+  @@map("pets")
 }
