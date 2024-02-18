@@ -3,9 +3,12 @@ import config from './config/dotenv.js';
 import cookieParser from 'cookie-parser';
 import userTestRouter from './routes/testRoutes/db-test.user.router.js';
 import petTestRouter from './routes/testRoutes/db-test.pet.router.js';
+import jwtTestRouter from './routes/testRoutes/db-test.jwt.router.js';
+import jwtRouter from './routes/jwt.router.js';
 import welcomeRouter from './routes/welcome.router.js';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpecs } from './utils/swagger.js';
+
 
 const app = express();
 
@@ -16,6 +19,8 @@ app.use(cookieParser());
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.use('/api/user-test', userTestRouter);
 app.use('/api/pet-test', petTestRouter);
-app.use('/welcome', welcomeRouter);
+app.use('/api/token-test', jwtTestRouter);
+app.use('/api/login', jwtRouter);
+app.use('/welcome', welcomeRouter); 
 
 app.listen(config.port, () => console.log(`Listening on port ${config.port}`));
