@@ -28,10 +28,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Token"
-        "401":
-          $ref: "#/components/responses/BadRequest"
-        "500":
-          $ref: "#/components/responses/ServerError"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /api/users/register:
     post:
@@ -73,10 +75,12 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/OK"
-        "401":
-          $ref: "#/components/responses/BadRequest"
-        "500":
-          $ref: "#/components/responses/ServerError"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /api/users/{uid}:
     get:
       summary: Busca un usuario por su ID en la base de datos y devuelve sus datos si existe.
@@ -91,10 +95,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-        "403":
-          $ref: "#/components/responses/Unauthorized"
-        "500":
-          $ref: "#/components/responses/ServerError"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /api/users/update:
     put:
       summary: Actualiza los datos de un usuario autenticado.
@@ -138,10 +144,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-        "403":
-          $ref: "#/components/responses/Unauthorized"
-        "500":
-          $ref: "#/components/responses/ServerError"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /api/users/delete:
     delete:
       summary: Busca un usuario por su ID en la base de datos y lo elimina.
@@ -152,10 +160,12 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/OK"
-        "403":
-          $ref: "#/components/responses/Unauthorized"
-        "500":
-          $ref: "#/components/responses/ServerError"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   # /api/users/alerts:
   #   post:
   #     summary: Activa o desactiva las alertas.
@@ -175,14 +185,6 @@ components:
   responses:
     OK:
       description: "(OK) Operación realizada con éxito."
-    Unauthorized:
-      description: "(Unauthorized) No tiene los permisos para realizar esta acción."
-    NotFound:
-      description: "(NotFound) No se encontró la información solicitada."
-    BadRequest:
-      description: "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados."
-    ServerError:
-      description: "(Server Error) Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD."
   parameters:
     token:
       in: header
@@ -235,3 +237,12 @@ components:
         expiresIn:
           type: integer
           description: El tiempo en segundos hasta que el token expire.
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Número de código de error.
+        message:
+          type: string
+          description: Descripción del error.
