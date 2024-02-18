@@ -5,7 +5,14 @@ export default {
     './src/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        'blue-buttons':"#2589bd",
+        'orange-huella': "#fd7e14"
+      }
+    },
+    container:{padding :'2rem'},
+  
   },
   plugins: [],
 }
