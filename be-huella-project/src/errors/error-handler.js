@@ -9,7 +9,7 @@ export const middlewareErrorHandler = (error, req, res, next) => {
   }
 
   res.status(statusCode).json({
+    statusCode,
     message,
-    status: statusCode,
   });
 };
