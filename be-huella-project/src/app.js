@@ -20,7 +20,7 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.use('/api/user-test', userTestRouter);
 app.use('/api/pet-test', petTestRouter);
 app.use('/api/token-test', jwtTestRouter);
-app.use('/api/login', jwtRouter);
+app.use('/api/users/login', jwtRouter);
 
 
 app.use(middlewareErrorHandler);
