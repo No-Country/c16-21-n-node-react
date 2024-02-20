@@ -19,10 +19,10 @@ const jwtCreate = async (req, res, next) => {
         }
         
         //crear el token con los datos del usuario
-        const { id: sub } = { id: result.id }; // req.body
-        const token = jwt.sign({ sub, exp: Date.now() + (3600 * 1000) }, secret);
+        const { id: sub, exp } = { id: result.id , exp: Date.now() + (3600 * 1000)}; // req.body
+        const token = jwt.sign({ sub, exp }, secret);
         
-        return res.cookie("jwt", token).status(200).json({ expiredIn: token.exp, accessToken: token });
+        return res.cookie("jwt", token).status(200).json({ accessToken: token, expiredIn: exp });
     } catch (error) {
         next(error);
     }
