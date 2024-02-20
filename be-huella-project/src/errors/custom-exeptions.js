@@ -37,3 +37,11 @@ export class ServerError extends Error {
     this.statusCode = statusCode || 500;
   }
 }
+
+export class ExpiredToken extends Error {
+  constructor(msg, statusCode) {
+    super(msg);
+    this.name = this.constructor.name;
+    this.statusCode = statusCode || 498;
+  }
+}
