@@ -8,7 +8,8 @@ const secret = process.env.SECRETJWT;
 
 router.post('/', async (req, res) => {
     //hacer consulta a la base de datos de la existencia del usuario
-    const result = await prisma.$queryRaw`SELECT id,password FROM Users WHERE username = ${req.body['name']} OR email = ${req.body['email']};`
+    //const result = await prisma.$queryRaw`SELECT id,password FROM Users WHERE username = ${req.body['name']} OR email = ${req.body['email']};`
+    const result = await prisma.users.findMany({ where: { email: req.body.email } });
     
     if (result<=0){
         return res.status(400).json({message:'Usuario no encontrado'})
@@ -48,7 +49,7 @@ router.get('/checkToken', function(req, res){
             return res.status(498).send({ error: "El token ha expirado"});
         }
         
-        return res.status(200).json(data );
+        return res.status(200).json(data);
 
     }catch(error){
         return res.status(401).json({
