@@ -62,12 +62,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pet"
-        "401":
-          $ref: "#/components/responses/BadRequest"
-        "403":
-          $ref: "#/components/responses/Unauthorized"
-        "500":
-          $ref: "#/components/responses/ServerError"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /api/pets/update:
     put:
       summary: Actualiza los datos de la mascota en la BDD.
@@ -123,12 +123,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pet"
-        "401":
-          $ref: "#/components/responses/BadRequest"
-        "403":
-          $ref: "#/components/responses/Unauthorized"
-        "500":
-          $ref: "#/components/responses/ServerError" 
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error" 
   /api/pets/delete:
     delete:
       summary: Elimina la mascota de la BDD.
@@ -139,12 +139,12 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/OK"
-        "401":
-          $ref: "#/components/responses/BadRequest"
-        "403":
-          $ref: "#/components/responses/Unauthorized"
-        "500":
-          $ref: "#/components/responses/ServerError"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /api/pets/all:
     get:
       summary: Obtiene todas las mascotas de la BDD.
@@ -159,10 +159,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Pet"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/ServerError"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /api/pets/{pid}:
     get:
       summary: Obtiene una mascota de la BDD por su ID.
@@ -177,22 +179,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pet"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/ServerError"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   responses:
     OK:
       description: "(OK) Operación realizada con éxito."
-    Unauthorized:
-      description: "(Unauthorized) No tiene los permisos para realizar esta acción."
-    NotFound:
-      description: "(NotFound) No se encontró la información solicitada."
-    BadRequest:
-      description: "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados."
-    ServerError:
-      description: "(Server Error) Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD."
   parameters:
     token:
       in: header
@@ -290,4 +286,14 @@ components:
           description: Mascotas publicadas por el usuario.
           items:
             type: object
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Número de código de error.
+        message:
+          type: string
+          description: Descripción del error.
+
 

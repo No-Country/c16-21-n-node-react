@@ -1,27 +1,20 @@
 import { prisma } from '../../config/dbConnection.js';
 import { Router } from 'express';
-import { uuid } from 'uuidv4';
 
 const router = Router();
 
-let newPet = {
-  name: '',
-  type: 'Dog',
-  race: '',
-  weight: 12,
-  age: 6,
-  photo: 'http://rocco.com',
-  whenWasLost: '14/6/23',
-  whenWasFound: '',
-  gender: 'female',
-
-  lostOrFound: 'lost',
-  userId: '962c458c-cf0e-4e3c-8264-b963d755f702',
+const newUser = {
+  username: 'max',
+  email: 'max@test.com',
+  password: '1234',
+  phone: '1166603219',
+  profilePic: 'maxpic.jpg',
+  location: 'Vicente Lopez',
 };
 
 router.get('/', async (req, res) => {
   try {
-    const result = await prisma.pet.findMany({});
+    const result = await prisma.users.findMany({ include: { pets: true } });
     console.log(result);
     return res.json(result);
   } catch (error) {
@@ -31,19 +24,19 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const result = await prisma.pet.create({ data: { ...newPet } });
+    const result = await prisma.users.create({ data: { ...newUser } });
     return res.json(result);
   } catch (error) {
-    console.log(error.message);
+    return res.json(error.message);
   }
 });
 
 router.delete('/', async (req, res) => {
   try {
-    const result = await prisma.pet.deleteMany();
+    const result = await prisma.users.deleteMany();
     return res.json(result);
   } catch (error) {
-    console.log(error.message);
+    return res.json(error.message);
   }
 });
 
