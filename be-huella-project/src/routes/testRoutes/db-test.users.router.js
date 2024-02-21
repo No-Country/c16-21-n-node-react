@@ -1,5 +1,6 @@
 import { prisma } from '../../config/dbConnection.js';
 import { Router } from 'express';
+import bcrypt from 'bcrypt';
 
 const router = Router();
 
@@ -11,6 +12,7 @@ const newUser = {
   profilePic: 'maxpic.jpg',
   location: 'Vicente Lopez',
 };
+newUser.password = bcrypt.hashSync(newUser.password, 10);
 
 router.get('/', async (req, res) => {
   try {
@@ -24,6 +26,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
+    
     const result = await prisma.users.create({ data: { ...newUser } });
     return res.json(result);
   } catch (error) {

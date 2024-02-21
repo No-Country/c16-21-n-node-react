@@ -1,8 +1,10 @@
 import { prisma } from '../config/dbConnection.js';
 import * as Errors from '../errors/custom-exeptions.js';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 const secret = process.env.SECRETJWT;
+const rndSal = 10;
 const jwtCreate = async (req, res, next) => {
     //Consultar a la base de datos de la existencia del usuario
     try {
@@ -12,7 +14,7 @@ const jwtCreate = async (req, res, next) => {
             throw new Errors.NotFound('User Not found');
         }
         //comparar contraseñas y verificar si son correctas
-        const isValid = (req.body.password == result.password);
+        const isValid = (bcrypt.compareSync(req.body.password, result.password));
         
         if (!isValid) {
             throw new Errors.Unathorized('Password incorrect');
