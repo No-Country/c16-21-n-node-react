@@ -18,6 +18,7 @@ model Users {
   phone      String
   profilePic String?
   location   String
+  admin      Boolean
   pets       Pets[]
 }
 
