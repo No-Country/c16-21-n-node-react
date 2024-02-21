@@ -8,4 +8,12 @@ const getAllPets = async () => {
   return result;
 };
 
-export { getAllPets };
+const create = async (pet) => {
+  if (!pet.name || !pet.location || !pet.type) {
+    throw new Errors.BadRequest('All atributes are required');
+  }
+  const result = await database.create(pet);
+  return result;
+};
+
+export { getAllPets, create };
