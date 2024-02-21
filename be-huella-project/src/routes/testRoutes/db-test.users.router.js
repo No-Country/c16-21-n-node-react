@@ -15,7 +15,6 @@ const newUser = {
 router.get('/', async (req, res) => {
   try {
     const result = await prisma.users.findMany({ include: { pets: true } });
-    console.log(result);
     return res.json(result);
   } catch (error) {
     console.log(error.message);
