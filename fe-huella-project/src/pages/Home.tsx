@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import LogoHuella from "../assets/LogoHuella.png";
+import { HomeLists } from "../components/HomeLists";
 
 export const Home = () => {
   return (
@@ -25,13 +26,17 @@ export const Home = () => {
 
 
         <Link
-          className=" inline-block m-auto text-center w-fit  mr-auto  shadow-md shadow-gray-400   text-sm px-4 py-2 leading-none rounded text-white bg-blue-buttons  hover:border-transparent hover:shadow-none hover:text-blue-buttons hover:bg-white mt-4 lg:mt-0"
+          className=" inline-block m-auto text-center  w-[25%] rounded-full h-10  mr-auto  shadow-md shadow-gray-400   text-sm px-4 py-3 leading-none text-white bg-blue-buttons  hover:border-transparent hover:shadow-none hover:text-blue-buttons hover:bg-white mt-4 lg:mt-0"
           to={"/register"}
         >
          
           Crea Tu Cuenta
         </Link>
       </section>
+
+      <HomeLists></HomeLists>
+
+
     </div>
   );
 };

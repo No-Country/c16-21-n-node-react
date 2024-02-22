@@ -5,7 +5,7 @@ import LogoHuella from '../assets/LogoHuella.png'
 export const Navbar = () => {
   return (
    <nav className=" flex   justify-between">
-    <Link className="mt-4" to={"/"}> <img src={LogoHuella} alt="logo ap" /></Link>
+    <Link className="mt-4" to={"/"}> <img className="w-[8rem]" src={LogoHuella} alt="logo ap" /></Link>
     
     <ul className="flex ">
       
