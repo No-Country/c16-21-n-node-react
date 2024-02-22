@@ -3,10 +3,17 @@ import { dirname } from 'path';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 import * as Errors from '../errors/custom-exeptions.js';
+import bcrypt from 'bcrypt';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const __mainDirname = path.join(__dirname, '..');
+
+const generateToken = (user) => {
+  let exp = Date.now() + 3600 * 1000;
+  const token = jwt.sign({ user, exp }, process.env.SECRETJWT);
+  return token;
+};
 
 const verifyToken = (token) => {
   const verifiedToken = jwt.verify(token, process.env.SECRETJWT);
@@ -17,4 +24,7 @@ const verifyToken = (token) => {
   return verifiedToken;
 };
 
-export { __mainDirname, verifyToken };
+const isValidPassword = (user, password) =>
+  bcrypt.compareSync(password, user.password);
+
+export { __mainDirname, verifyToken, generateToken, isValidPassword };
