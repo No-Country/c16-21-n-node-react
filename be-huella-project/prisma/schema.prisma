@@ -16,8 +16,8 @@ model Users {
   profilePic String?
   location   String
   pets       Pets[]
-  alerts     Boolean
-  admin      Boolean
+  alerts     Boolean @default(false)
+  admin      Boolean @default(false)
 
   @@map("users")
 }
