@@ -16,6 +16,8 @@ model Users {
   profilePic String?
   location   String
   pets       Pets[]
+  alerts     Boolean
+  admin      Boolean
 
   @@map("users")
 }
