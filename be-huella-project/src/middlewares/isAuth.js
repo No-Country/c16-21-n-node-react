@@ -5,7 +5,7 @@ export const isAuth = async (req, res, next) => {
   try {
     if (!req.cookies.jwt)
       throw new Errors.Unathorized('You need authentication');
-    const authCookie = req.cookies.jwt;
+    const authCookie = req.cookies.jwt || req.cookies.recoverPasswordCookie;
     const decodedToken = verifyToken(authCookie);
     req.user = decodedToken.sub;
     next();
