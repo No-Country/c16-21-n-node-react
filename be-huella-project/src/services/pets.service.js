@@ -20,4 +20,15 @@ const deletePet = async (pid) => {
   return result;
 };
 
-export { getAllPets, getPetById, deletePet };
+const updatePet = async (pid, newPet) => {
+  if (!pid) throw new Errors.BadRequest('Pet ID is required');
+  if (!newPet) throw new Errors.BadRequest('An update is required');
+  const petById = await petsPrisma.getPetById(pid);
+  if (!petById) throw new Errors.NotFound('Pet not found');
+  const updatedPet = { ...petById, ...newPet };
+  console.log(updatedPet);
+  const result = await petsPrisma.updatePet(updatedPet);
+  return result;
+};
+
+export { getAllPets, getPetById, deletePet, updatePet };
