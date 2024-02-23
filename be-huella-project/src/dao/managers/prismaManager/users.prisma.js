@@ -5,4 +5,9 @@ const getUserByEmail = async (email) => {
   return result;
 };
 
-export { getUserByEmail };
+const getUserById = async (uid) => {
+  const result = await prisma.users.findUnique({ where: { id: uid } });
+  return result;
+};
+
+export { getUserByEmail, getUserById };

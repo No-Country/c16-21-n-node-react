@@ -13,8 +13,8 @@ const recoverPassword = async (req, res, next) => {
 const resetPassword = async (req, res, next) => {
   try {
     const { password } = req.body;
-    const token = req.cookies.recoverPasswordCookie;
-    const result = await usersService.resetPassword(token, password);
+    const user = req.user;
+    const result = await usersService.resetPassword(password, user);
     res.send(result);
   } catch (error) {
     next(error);

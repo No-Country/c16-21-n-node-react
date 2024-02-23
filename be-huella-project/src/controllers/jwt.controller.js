@@ -17,8 +17,8 @@ const jwtCreate = async (req, res, next) => {
       throw new Errors.NotFound('User Not found');
     }
     //comparar contraseñas y verificar si son correctas
-    const isValid = bcrypt.compareSync(req.body.password, result.password);
-
+    const isValid = (bcrypt.compareSync(req.body.password, result.password));
+    
     if (!isValid) {
       throw new Errors.Unathorized('Password incorrect');
     }

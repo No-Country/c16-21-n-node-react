@@ -21,6 +21,13 @@ const getPetById = async (req, res, next) => {
 
 const updatePet = async (req, res, next) => {
   try {
+<<<<<<< HEAD
+=======
+    const pet = req.body;
+    const { pid } = req.params;
+    const result = await petsService.updatePet(pid, pet);
+    res.send(result);
+>>>>>>> pet-crud
   } catch (error) {
     next(error);
   }

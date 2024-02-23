@@ -14,10 +14,10 @@ const recoverPassword = async (email) => {
   return token;
 };
 
-const resetPassword = async (token, password) => {
-  const verifiedToken = verifyToken(token);
-  const user = await usersPrisma.getUserByEmail(verifiedToken.user.email);
-  const isValid = isValidPassword(user, password);
+const resetPassword = async (password, user) => {
+  if (!password) throw new Errors.BadRequest('Password is required');
+  const userById = await usersPrisma.getUserById(user.id);
+  const isValid = isValidPassword(userById, password);
   if (isValid)
     throw new Errors.BadRequest(
       'The password must be different to previous passwords'

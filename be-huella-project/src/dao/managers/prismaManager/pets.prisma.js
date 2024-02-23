@@ -21,4 +21,18 @@ const deletePet = async (pid) => {
   return result;
 };
 
+<<<<<<< HEAD
 export { create, getAllPets, getPetById, deletePet };
+=======
+const updatePet = async (pet) => {
+  const result = await prisma.pets.update({
+    where: { id: pet.id },
+    data: {
+      ...pet,
+    },
+  });
+  return result;
+};
+
+export { create, getAllPets, getPetById, deletePet, updatePet };
+>>>>>>> pet-crud
