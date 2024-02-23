@@ -1,0 +1,299 @@
+paths:
+  /api/pets/create:
+    post:
+      summary: Envía los datos de la mascota para almacenarla en la BDD.
+      tags:
+        - Pets
+      parameters:
+        - $ref: "#/components/parameters/token"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Nombre de la mascota.
+                race:
+                  type: string
+                  description: Raza de la mascota.
+                type:
+                  type: string
+                  description: Tipo de animal.
+                photo:
+                  type: string
+                  description: URL de la imagen de la mascota.
+                location:
+                  type: string
+                  description: Ubicación donde fue encontrada la mascota.
+                gender:
+                  type: string
+                  description: Género de la mascota (hembra o macho).
+                lostOrFound:
+                  type: string
+                  description: Si la mascota fue perdida o encontrada.
+                necklace:
+                  type: boolean
+                  description: Si la mascota tiene collar.
+                weight:
+                  type: number
+                  description: Peso de la mascota.
+                age:
+                  type: number
+                  description: Edad de la mascota.
+                when: 
+                  type: string
+                  format: date-time
+                  description: Fecha cuando fue perdida o encontrada la mascota. (Formato ISO 8601)
+              required:
+                - type
+                - photo
+                - location
+                - gender
+                - lostOrFound
+                - when
+                - necklace
+      responses:
+        "200":
+          description: "(OK) Operación realizada con éxito."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/pets/update:
+    put:
+      summary: Actualiza los datos de la mascota en la BDD.
+      tags:
+        - Pets
+      parameters:
+        - $ref: "#/components/parameters/token"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Nombre de la mascota.
+                race:
+                  type: string
+                  description: Raza de la mascota.
+                type:
+                  type: string
+                  description: Tipo de animal.
+                photo:
+                  type: string
+                  description: URL de la imagen de la mascota.
+                location:
+                  type: string
+                  description: Ubicación donde fue encontrada la mascota.
+                gender:
+                  type: string
+                  description: Género de la mascota (hembra o macho).
+                lostOrFound:
+                  type: string
+                  description: Si la mascota fue perdida o encontrada.
+                necklace:
+                  type: boolean
+                  description: Si la mascota tiene collar.
+                weight:
+                  type: number
+                  description: Peso de la mascota.
+                age:
+                  type: number
+                  description: Edad de la mascota.
+                when: 
+                  type: string
+                  format: date-time
+                  description: Fecha cuando fue perdida o encontrada la mascota. (Formato ISO 8601)
+      responses:
+        "200":
+          description: "(OK) Operación realizada con éxito."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error" 
+  /api/pets/delete:
+    delete:
+      summary: Elimina la mascota de la BDD.
+      tags:
+        - Pets
+      parameters:
+        - $ref: "#/components/parameters/token"
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/pets/all:
+    get:
+      summary: Obtiene todas las mascotas de la BDD.
+      tags:
+        - Pets
+      responses:
+        "200":
+          description: "(OK) Operación realizada con éxito."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/pets/{pid}:
+    get:
+      summary: Obtiene una mascota de la BDD por su ID.
+      tags:
+        - Pets
+      parameters:
+        - $ref: "#/components/parameters/pid"
+      responses:
+        "200":
+          description: "(OK) Operación realizada con éxito."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  responses:
+    OK:
+      description: "(OK) Operación realizada con éxito."
+  parameters:
+    token:
+      in: header
+      name: token
+      description: "Token de autenticación de la API."
+      required: true
+      schema:
+        type: string
+    uid:
+      in: path
+      name: uid
+      required: true
+      schema:
+        type: string
+        description: "ID del usuario a buscar en la base de datos."
+    pid:
+      in: path
+      name: pid
+      required: true
+      schema:
+        type: string
+        description: "ID de la mascota a buscar en la base de datos."
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID único de la mascota.
+        name:
+          type: string
+          description: Nombre de la mascota.
+        race:
+          type: string
+          description: Raza de la mascota.
+        type:
+          type: string
+          description: Tipo de animal.
+        photo:
+          type: string
+          description: URL de la imagen de la mascota.
+        location:
+          type: string
+          description: Ubicación donde fue encontrada la mascota.
+        gender:
+          type: string
+          description: Género de la mascota (hembra o macho).
+        lostOrFound:
+          type: string
+          description: Si la mascota fue perdida o encontrada.
+        userId:
+          type: string
+          description: ID del usuario que publica la mascota.
+        necklace:
+          type: boolean
+          description: Si la mascota tiene collar.
+        weight:
+          type: number
+          description: Peso de la mascota.
+        age:
+          type: number
+          description: Edad de la mascota.
+        when: 
+          type: string
+          format: date-time
+          description: Fecha cuando fue perdida o encontrada la mascota. (Formato ISO 8601)
+        createdAt:
+          type: string
+          format: date-time
+          description: Momento de creación de la mascota. (Formato ISO 8601)
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID único del usuario.
+        username:
+          type: string
+          description: Nombre de usuario del usuario.
+        email:
+          type: string
+          format: email
+          description: Dirección de correo electrónico del usuario.
+        phone:
+          type: string
+          description: Número de teléfono del usuario.
+        profilePic:
+          type: string
+          description: URL de la imagen de perfil del usuario.
+        location:
+          type: string
+          description: Ubicación del usuario.
+        pets:
+          type: array
+          description: Mascotas publicadas por el usuario.
+          items:
+            type: object
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Número de código de error.
+        message:
+          type: string
+          description: Descripción del error.
+
+

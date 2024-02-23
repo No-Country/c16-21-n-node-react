@@ -1,0 +1,248 @@
+paths:
+  /api/users/login:
+    post:
+      summary: Envía los datos del usuario para autenticarse en el sistema.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email del usuario.
+                password:
+                  type: string
+                  format: password
+                  description: Contraseña del usuario.
+              required:
+                - email
+                - password
+      responses:
+        "200":
+          description: "(OK) Operación realizada con éxito."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/users/register:
+    post:
+      summary: Envía los datos del usuario para registrarse en el sistema.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Nombre de usuario del usuario.
+                email:
+                  type: string
+                  description: Email del usuario.
+                password:
+                  type: string
+                  format: password
+                  description: Contraseña del usuario.
+                phone:
+                  type: string
+                  description: Teléfono del usuario.
+                profilePic:
+                  type: string
+                  description: Imágen de perfil del usuario.
+                location:
+                  type: string
+                  description: Ubicación del usuario.
+              required:
+                - username
+                - password
+                - email
+                - phone
+                - location
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/users/{uid}:
+    get:
+      summary: Busca un usuario por su ID en la base de datos y devuelve sus datos si existe.
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/token"  # Inclusión del parámetro token
+      responses:
+        "200":
+          description: "(OK) Operación realizada con éxito."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/users/update:
+    put:
+      summary: Actualiza los datos de un usuario autenticado.
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/token"
+        - $ref: "#/components/parameters/uid"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Nombre de usuario del usuario.
+                email:
+                  type: string
+                  description: Email del usuario.
+                password:
+                  type: string
+                  format: password
+                  description: Contraseña del usuario.
+                phone:
+                  type: string
+                  description: Teléfono del usuario.
+                profilePic:
+                  type: string
+                  description: Imagen de perfil del usuario.
+                location:
+                  type: string
+                  description: Ubicación del usuario.
+              required: []  # Ningún campo es obligatorio
+      responses:
+        "200":
+          description: 
+            $ref: "#/components/responses/OK"  # Referencia a la descripción de la respuesta 200
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/users/delete:
+    delete:
+      summary: Busca un usuario por su ID en la base de datos y lo elimina.
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/token"
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  # /api/users/alerts:
+  #   post:
+  #     summary: Activa o desactiva las alertas.
+  #     tags:
+  #       - Users
+  #     parameters:
+  #       - $ref: "#/components/parameters/token"
+  #     responses:
+  #       "200":
+  #         $ref: "#/components/responses/OK"
+  #       "403":
+  #         $ref: "#/components/responses/Unauthorized"
+  #       "500":
+  #         $ref: "#/components/responses/ServerError"
+
+components:
+  responses:
+    OK:
+      description: "(OK) Operación realizada con éxito."
+  parameters:
+    token:
+      in: header
+      name: token
+      description: "Token de autenticación de la API."
+      required: true
+      schema:
+        type: string
+    uid:
+      in: path
+      name: uid
+      required: true
+      schema:
+        type: string
+        description: "ID del usuario a buscar en la base de datos."
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID único del usuario.
+        username:
+          type: string
+          description: Nombre de usuario del usuario.
+        email:
+          type: string
+          format: email
+          description: Dirección de correo electrónico del usuario.
+        phone:
+          type: string
+          description: Número de teléfono del usuario.
+        profilePic:
+          type: string
+          description: URL de la imagen de perfil del usuario.
+        location:
+          type: string
+          description: Ubicación del usuario.
+        pets:
+          type: array
+          description: Mascotas publicadas por el usuario.
+          items:
+            type: object
+    Token:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: El token de acceso generado para autenticación.
+        expiresIn:
+          type: integer
+          description: El tiempo en segundos hasta que el token expire.
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Número de código de error.
+        message:
+          type: string
+          description: Descripción del error.
