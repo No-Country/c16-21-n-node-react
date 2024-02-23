@@ -5,9 +5,9 @@ import { isAuth } from '../middlewares/isAuth.js';
 const router = Router();
 
 router.get('/', petsController.getAllPets);
-router.get('/:pid', petsController.getPetById);
-router.post('/', petsController.createPet);
-router.put('/:pid', petsController.updatePet);
-router.delete('/:pid', petsController.deletePet);
+router.get('/:pid', isAuth, petsController.getPetById);
+router.post('/', isAuth, petsController.createPet);
+router.put('/:pid', isAuth, petsController.updatePet);
+router.delete('/:pid', isAuth, petsController.deletePet);
 
 export default router;

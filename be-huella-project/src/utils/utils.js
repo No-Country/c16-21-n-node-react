@@ -27,4 +27,15 @@ const verifyToken = (token) => {
 const isValidPassword = (user, password) =>
   bcrypt.compareSync(password, user.password);
 
-export { __mainDirname, verifyToken, generateToken, isValidPassword };
+const userOwnsPet = (uid, pet) => {
+  if (uid !== pet.userId) throw new Errors.Forbidden('You dont own this pet');
+  return true;
+};
+
+export {
+  __mainDirname,
+  verifyToken,
+  generateToken,
+  isValidPassword,
+  userOwnsPet,
+};
