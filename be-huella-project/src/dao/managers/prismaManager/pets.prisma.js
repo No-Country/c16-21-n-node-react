@@ -5,4 +5,20 @@ const create = async (pet) => {
   return result;
 };
 
-export { create };
+const getAllPets = async () => {
+  const result = await prisma.pets.findMany({});
+  return result;
+};
+
+const getPetById = async (pid) => {
+  const result = await prisma.pets.findUnique({ where: { id: pid } });
+  return result;
+};
+
+const deletePet = async (pid) => {
+  const result = await prisma.pets.delete({ where: { id: pid } });
+  if (!result) throw new Errors.NotFound('Pet not found');
+  return result;
+};
+
+export { create, getAllPets, getPetById, deletePet };
