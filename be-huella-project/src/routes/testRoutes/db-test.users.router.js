@@ -5,8 +5,8 @@ import bcrypt from 'bcrypt';
 const router = Router();
 
 const newUser = {
-  username: 'maxjh',
-  email: 'maximojhernandezla@gmail.com',
+  username: 'max',
+  email: 'max@test.com',
   password: '1234',
   phone: '1166603219',
   profilePic: 'maxpic.jpg',
@@ -25,6 +25,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
+    
     const result = await prisma.users.create({ data: { ...newUser } });
     return res.json(result);
   } catch (error) {
