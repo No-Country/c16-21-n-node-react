@@ -2,6 +2,7 @@
     import {  Root } from "../pages/Root";
     import { Register } from "../pages/Register";
     import { Home } from "../pages/Home";
+import { Login } from "../pages/Login";
     
 
      export const router = createHashRouter([
@@ -17,6 +18,10 @@
             path: "/register",
             element: <Register/>,
           },
+          {
+            path:"/login",
+            element:<Login/>
+          }
         ],
       },
       
