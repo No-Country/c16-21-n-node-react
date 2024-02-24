@@ -2,6 +2,27 @@ import { log } from 'console';
 import * as Errors from '../errors/custom-exeptions.js';
 import * as usersService from '../services/users.services.js';
 
+const recoverPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const token = await usersService.recoverPassword(email);
+    res.cookie('recoverPasswordCookie', token).status(200).send({ token });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const resetPassword = async (req, res, next) => {
+  try {
+    const { password } = req.body;
+    const user = req.user;
+    const result = await usersService.resetPassword(password, user);
+    res.send(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const userCreate = async (req,res,next) => {
     
 };
@@ -75,4 +96,7 @@ const userDelete = async (req,res, next) => {
 };
 
 
-export { getAllUsers, userCreate, userDelete, userUpdate, userFind, userFindId };
+export { getAllUsers, userCreate, userDelete, userUpdate, userFind, userFindId, recoverPassword, resetPassword };
+
+
+
