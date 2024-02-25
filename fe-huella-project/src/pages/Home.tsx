@@ -3,6 +3,18 @@ import LogoHuella from "../assets/LogoHuella.png";
 import { HomeLists } from "../components/HomeLists";
 
 export const Home = () => {
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div>
       <section className="flex flex-col justify-center">
@@ -34,7 +46,9 @@ export const Home = () => {
         </Link>
       </section>
 
-      <HomeLists></HomeLists>
+      <HomeLists >
+        
+      </HomeLists>
 
 
     </div>
