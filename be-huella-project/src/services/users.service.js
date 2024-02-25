@@ -13,19 +13,23 @@ const getAllUsers = async () => {
 };
 
 const userCreate = async (user) => {
-if (!user.username || !user.location || !user.email) {
-  throw new Errors.BadRequest('All atributes are required');
-}
+  if (!user.username || !user.location || !user.email) {
+    throw new Errors.BadRequest('All atributes are required');
+  }
+  const userFromDB = await usersPrisma.findUser({ email: user.email });
+  if (userFromDB) {
+    throw new Errors.Forbidden('User with this email already exists');
+  } 
   const result = await usersPrisma.createUser(user);
-return result;
+  return result;
 };
 
 const userUpdate = async (user) => {
-if (!user.name || !user.location || !user.type) {
-  throw new Errors.BadRequest('All atributes are required');
-}
-const result = await usersPrisma.updateUser(user);
-return result;
+  if (!user.name || !user.location || !user.type) {
+    throw new Errors.BadRequest('All atributes are required');
+  }
+  const result = await usersPrisma.updateUser(user);
+  return result;
 };
 
 const userDelete = async (user) => {
