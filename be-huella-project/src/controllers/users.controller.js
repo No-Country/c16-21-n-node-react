@@ -34,8 +34,14 @@ const userCreate = async (req,res,next) => {
   } 
 };
 
-const userUpdate = () => {
-    
+const userUpdate = async (req,res, next) => {
+  try {
+    const user = req.body;
+    const result = await usersService.userUpdate(user);
+    res.send(result);
+  } catch (error) {
+    next(error);
+  } 
 };
 
 const userFind = async (req, res, next) => {
@@ -99,7 +105,13 @@ const getAllUsers = async (req, res, next) => {
 };
 
 const userDelete = async (req,res, next) => {
-    
+  try {
+    const user = req.body;
+    const result = await usersService.userDelete(user);
+    res.send(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
 

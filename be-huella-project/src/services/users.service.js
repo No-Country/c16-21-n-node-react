@@ -25,7 +25,7 @@ const userCreate = async (user) => {
 };
 
 const userUpdate = async (user) => {
-  if (!user.name || !user.location || !user.type) {
+  if (!user.name || !user.location || !user.email) {
     throw new Errors.BadRequest('All atributes are required');
   }
   const result = await usersPrisma.updateUser(user);
