@@ -4,6 +4,63 @@ import UserDto from '../DTOs/user.dto.js';
 import { isValidPassword, generateToken, verifyToken } from '../utils/utils.js';
 import { recoverPasswordMailing } from '../utils/nodemailer.js';
 
+
+const getAllUsers = async () => {
+  const result = await usersPrisma.findMany();
+  // const result = null;
+  if (!result) throw new Errors.NotFound('Users not found');
+  return result;
+};
+
+const userCreate = async (user) => {
+if (!user.username || !user.location || !user.email) {
+  throw new Errors.BadRequest('All atributes are required');
+}
+  const result = await usersPrisma.createUser(user);
+return result;
+};
+
+const userUpdate = async (user) => {
+if (!user.name || !user.location || !user.type) {
+  throw new Errors.BadRequest('All atributes are required');
+}
+const result = await usersPrisma.updateUser(user);
+return result;
+};
+
+const userDelete = async (user) => {
+  if (!user) {
+    throw new Errors.BadRequest('Id atribute is required');
+  }
+  const result = await usersPrisma.deleteUser(user);
+  return result;
+};
+
+const userFind = async (user) => {
+  if (!user.email && !user.id) {
+    throw new Errors.BadRequest('Any atribute is required');
+  }
+  const result = await usersPrisma.find(user); 
+  
+  if(!result){
+      throw new Errors.NotFound(`The user ${user.name} or id ${user.id} does not exist`);
+  }
+  return result;
+};
+
+const userFindId = async (user) => {
+  if (!user.id) {
+    throw new Errors.BadRequest('Id atribute is required');
+  }
+  const result = await usersPrisma.findId(user); 
+  
+  if(!result){
+      throw new Errors.NotFound(`The user id ${user.id} does not exist`);
+  }
+  return result;
+};
+
+
 const recoverPassword = async (email) => {
   if (!email) throw new Errors.BadRequest('Email is required');
   const user = await usersPrisma.getUserByEmail(email);
@@ -26,4 +83,4 @@ const resetPassword = async (password, user) => {
   return updateUser;
 };
 
-export { recoverPassword, resetPassword };
+export { getAllUsers, userCreate, userDelete, userUpdate, userFind, userFindId, recoverPassword, resetPassword };

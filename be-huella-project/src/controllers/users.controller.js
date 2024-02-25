@@ -1,6 +1,6 @@
 import { log } from 'console';
 import * as Errors from '../errors/custom-exeptions.js';
-import * as usersService from '../services/users.services.js';
+import * as usersService from '../services/users.service.js';
 
 const recoverPassword = async (req, res, next) => {
   try {
@@ -17,6 +17,7 @@ const resetPassword = async (req, res, next) => {
     const { password } = req.body;
     const user = req.user;
     const result = await usersService.resetPassword(password, user);
+    usersService.
     res.send(result);
   } catch (error) {
     next(error);
@@ -24,7 +25,13 @@ const resetPassword = async (req, res, next) => {
 };
 
 const userCreate = async (req,res,next) => {
-    
+  try {
+    const user = req.body;
+    const result = await usersService.userCreate(user);
+    res.send(result);
+  } catch (error) {
+    next(error);
+  } 
 };
 
 const userUpdate = () => {

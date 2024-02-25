@@ -9,12 +9,12 @@ const router = Router();
 router.post('/recover-password', usersController.recoverPassword);
 router.post('/recover-password/:uid', isAuth, usersController.resetPassword);
 
-router.get('/', userFunc.getAllUsers);
-router.post('/update', isAuth, userFunc.userUpdate);
-router.delete('/delete', isAuth, userFunc.userDelete);
-router.post('/signin', userFunc.userCreate);
-router.get('/find', userFunc.userFind);
-router.get('/find/:id', userFunc.userFindId);
+router.get('/', usersController.getAllUsers);
+router.post('/update', isAuth, usersController.userUpdate);
+router.delete('/delete', isAuth, usersController.userDelete);
+router.post('/signin', usersController.userCreate);
+router.get('/find', usersController.userFind);
+router.get('/find/:id', usersController.userFindId);
 
 
 export default router;
