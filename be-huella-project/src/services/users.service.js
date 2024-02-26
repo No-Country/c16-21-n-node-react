@@ -1,7 +1,7 @@
 import * as Errors from '../errors/custom-exeptions.js';
 import * as usersPrisma from '../dao/managers/prismaManager/users.prisma.js';
 import UserDto from '../DTOs/user.dto.js';
-import { isValidPassword, generateToken, verifyToken, encryptPass } from '../utils/utils.js';
+import { isValidPassword, generateToken, verifyToken, encryptPass, isCorrectPassword } from '../utils/utils.js';
 import { recoverPasswordMailing } from '../utils/nodemailer.js';
 
 
@@ -19,7 +19,11 @@ const userCreate = async (user) => {
   const userFromDB = await usersPrisma.findUser({ email: user.email });
   if (userFromDB) {
     throw new Errors.Forbidden('User with this email already exists');
-  } 
+  }
+  const formatCorrect = isCorrectPassword(user.password);
+  if (!formatCorrect) {
+    throw new Errors.BadRequest(`The password should contain At least one lowercase letter. At least one uppercase letter. At least one digit. At least one special character and Minimum length of 8 characters.`);
+  }
   user.password = encryptPass(user.password);
   const result = await usersPrisma.createUser(user);
   return result;
