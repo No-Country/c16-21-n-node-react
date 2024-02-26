@@ -11,8 +11,8 @@ const __mainDirname = path.join(__dirname, '..');
 
 const generateToken = (user) => {
   let exp = Date.now() + 3600 * 1000;
-  const token = jwt.sign({ user, exp }, process.env.SECRETJWT);
-  return token;
+  const token = jwt.sign({ user , exp }, process.env.SECRETJWT);
+  return { token, exp };
 };
 
 const verifyToken = (token) => {
@@ -27,4 +27,10 @@ const verifyToken = (token) => {
 const isValidPassword = (user, password) =>
   bcrypt.compareSync(password, user.password);
 
-export { __mainDirname, verifyToken, generateToken, isValidPassword };
+  const encryptPass = (pass) => {
+    const saltRounds = 10;
+    const hashedPass = bcrypt.hashSync(pass, saltRounds);
+    return hashedPass;
+  };
+
+export { __mainDirname, verifyToken, generateToken, isValidPassword, encryptPass };
