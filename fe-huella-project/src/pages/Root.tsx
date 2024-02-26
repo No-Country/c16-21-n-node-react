@@ -4,6 +4,7 @@ import { Footer } from "../components/Footer"
 
 
 export const  Root = () => {
+ 
   return (
     <main className="bg-gradient-to-t from-[#dbe4ee]  flex flex-col min-h-[100vh] ">
       

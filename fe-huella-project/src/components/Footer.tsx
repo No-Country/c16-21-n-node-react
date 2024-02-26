@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -10,5 +11,14 @@ export const Footer = () => {
       <Link to={"/about"} className='text-orange-huella' > Sobre Nosotros</Link>
         
       </footer>
+
+// import React from 'react'
+import { Link } from 'react-router-dom'
+export const Footer = () => {
+  return (
+    <footer className=' mt-auto footer-1 '>
+    <h5></h5>
+    </footer>
+
   )
 }
