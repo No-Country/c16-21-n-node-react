@@ -27,4 +27,10 @@ const verifyToken = (token) => {
 const isValidPassword = (user, password) =>
   bcrypt.compareSync(password, user.password);
 
-export { __mainDirname, verifyToken, generateToken, isValidPassword };
+  const encryptPass = (pass) => {
+    const saltRounds = 10;
+    const hashedPass = bcrypt.hashSync(pass, saltRounds);
+    return hashedPass;
+  };
+
+export { __mainDirname, verifyToken, generateToken, isValidPassword, encryptPass };

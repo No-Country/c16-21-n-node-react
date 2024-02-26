@@ -1,7 +1,7 @@
 import * as Errors from '../errors/custom-exeptions.js';
 import * as usersPrisma from '../dao/managers/prismaManager/users.prisma.js';
 import UserDto from '../DTOs/user.dto.js';
-import { isValidPassword, generateToken, verifyToken } from '../utils/utils.js';
+import { isValidPassword, generateToken, verifyToken, encryptPass } from '../utils/utils.js';
 import { recoverPasswordMailing } from '../utils/nodemailer.js';
 
 
@@ -20,12 +20,13 @@ const userCreate = async (user) => {
   if (userFromDB) {
     throw new Errors.Forbidden('User with this email already exists');
   } 
+  user.password = encryptPass(user.password);
   const result = await usersPrisma.createUser(user);
   return result;
 };
 
 const userUpdate = async (user) => {
-  if (!user.name || !user.location || !user.email) {
+  if (!user.username || !user.location || !user.email) {
     throw new Errors.BadRequest('All atributes are required');
   }
   const result = await usersPrisma.updateUser(user);
@@ -44,7 +45,7 @@ const userFind = async (user) => {
   if (!user.email && !user.id) {
     throw new Errors.BadRequest('Any atribute is required');
   }
-  const result = await usersPrisma.find(user); 
+  const result = await usersPrisma.findUser(user); 
   
   if(!result){
       throw new Errors.NotFound(`The user ${user.name} or id ${user.id} does not exist`);
@@ -56,7 +57,7 @@ const userFindId = async (user) => {
   if (!user.id) {
     throw new Errors.BadRequest('Id atribute is required');
   }
-  const result = await usersPrisma.findId(user); 
+  const result = await usersPrisma.findUserId(user); 
   
   if(!result){
       throw new Errors.NotFound(`The user id ${user.id} does not exist`);

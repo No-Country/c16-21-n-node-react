@@ -21,7 +21,8 @@ const deleteUser = async (user) => {
 };
 
 const updateUser = async (user) => {
-    const result = await prisma.users.update({ where: { id: user.id }, data: {user} });
+    const {id, ...updateData} = user;
+    const result = await prisma.users.update({where:{id},data:updateData});
     return result;
 };
 
