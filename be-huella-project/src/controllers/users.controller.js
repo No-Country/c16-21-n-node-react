@@ -2,9 +2,12 @@ import * as usersService from '../services/users.service.js';
 
 const recoverPassword = async (req, res, next) => {
   try {
-    const { email } = req.body;
-    const token = await usersService.recoverPassword(email);
-    res.cookie('recoverPasswordCookie', token).status(200).send({ token });
+    const { email, url } = req.body;
+    const token = await usersService.recoverPassword(email, url);
+    res
+      .cookie('recoverPasswordCookie', token)
+      .status(200)
+      .send({ message: 'We just sent you an email!' });
   } catch (error) {
     next(error);
   }
