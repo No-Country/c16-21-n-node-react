@@ -15,12 +15,14 @@ interface RegisterFormValues {
     year: string;
   };
 }
+//interfaz llamada RegisterFormValues que define la estructura de los datos que se recopilarán en el formulario
 
 export const Register: React.FC = () => {
   const { register, handleSubmit } = useForm<RegisterFormValues>();
 
   const onSubmit: SubmitHandler<RegisterFormValues> = (data) => {
     console.log(data);
+    //Al enviar el formulario, se llama a la función onSubmit que imprime los datos recopilados en la consola. 
     // Realizar la lógica de registro con los datos del formulario
   };
 
@@ -76,3 +78,6 @@ export const Register: React.FC = () => {
     </div>
   );
 };
+
+
+
