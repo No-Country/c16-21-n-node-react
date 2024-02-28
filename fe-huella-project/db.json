@@ -113,5 +113,12 @@
         }
 
 
+    ],
+
+    "user":[
+        {"username":"carlitos",
+            "pass":12345}
+
+
     ]
 }
