@@ -21,9 +21,9 @@ const getPetById = async (req, res, next) => {
 
 const updatePet = async (req, res, next) => {
   try {
-    const pet = req.body;
+    const pet = { ...req.body };
     const { pid } = req.params;
-    const result = await petsService.updatePet(pid, pet);
+    const result = await petsService.updatePet(pid, pet, req.file);
     res.send(result);
   } catch (error) {
     next(error);
@@ -42,6 +42,8 @@ const deletePet = async (req, res, next) => {
 
 const createPet = async (req, res, next) => {
   try {
+    const result = await petsService.createPet(req.body, req.file, req.user);
+    res.send(result);
   } catch (error) {
     next(error);
   }

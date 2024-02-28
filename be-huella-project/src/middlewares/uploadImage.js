@@ -1,24 +1,31 @@
-import { addUserIDToFileName } from '../middlewares/multer.js';
-import { getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from 'firebase/storage';
+import { db } from '../firebase/firebase.js';
 
-const uploadImage = async (file, quantity) => {
+const uploadImage = async (file) => {
+  // Obtener una referencia al almacenamiento de Firebase
   const storageFB = getStorage();
+  // Generar un nombre de archivo único
+  const dateTime = Date.now();
+  const fileName = `images/${dateTime}`;
 
-  await signInWithEmailAndPassword(
-    auth,
-    process.env.FIREBASE_USER,
-    process.env.FIREBASE_AUTH
-  );
+  // Obtener una referencia al archivo en el almacenamiento de Firebase
+  const storageRef = ref(storageFB, fileName);
 
-  if (quantity === 'single') {
-    const fileName = addUserIDToFileName();
-    const storageRef = ref(storageFB, fileName);
-    const metadata = {
-      contentType: file.type,
-    };
-    await uploadBytesResumable(storageRef, file.buffer, metadata);
-    return fileName;
-  }
+  // Subir la imagen al almacenamiento de Firebase
+  const metadata = {
+    contentType: file.mimetype,
+  };
+  await uploadBytesResumable(storageRef, file.buffer, metadata);
+
+  // Obtener la URL de descarga de la imagen
+  const downloadURL = await getDownloadURL(storageRef);
+
+  return downloadURL;
 };
 
 export { uploadImage };
