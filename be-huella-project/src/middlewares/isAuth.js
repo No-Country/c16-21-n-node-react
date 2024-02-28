@@ -13,7 +13,7 @@ export const isAuth = async (req, res, next) => {
     } else {
       authCookie = req.cookies.jwt;
       const decodedToken = verifyToken(authCookie);
-      req.user = decodedToken.sub;
+      req.user = decodedToken.user;
     }
     next();
   } catch (error) {

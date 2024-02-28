@@ -1,7 +1,7 @@
 import { prisma } from '../../../config/dbConnection.js';
 
-const create = async (pet) => {
-  const result = await prisma.pets.create({ data: pet });
+const createPet = async (pet) => {
+  const result = await prisma.pets.create({ data: { ...pet } });
   return result;
 };
 
@@ -31,4 +31,4 @@ const updatePet = async (pet) => {
   return result;
 };
 
-export { create, getAllPets, getPetById, deletePet, updatePet };
+export { createPet, getAllPets, getPetById, deletePet, updatePet };

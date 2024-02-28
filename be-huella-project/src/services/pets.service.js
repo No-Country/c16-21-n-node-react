@@ -1,6 +1,6 @@
 import * as petsPrisma from '../dao/managers/prismaManager/pets.prisma.js';
-import { prisma } from '../config/dbConnection.js';
 import * as Errors from '../errors/custom-exeptions.js';
+import { uploadImage } from '../middlewares/uploadImage.js';
 
 const getAllPets = async () => {
   const pets = await petsPrisma.getAllPets();
@@ -20,15 +20,48 @@ const deletePet = async (pid) => {
   return result;
 };
 
-const updatePet = async (pid, newPet) => {
+const updatePet = async (pid, newPet, image) => {
   if (!pid) throw new Errors.BadRequest('Pet ID is required');
   if (!newPet) throw new Errors.BadRequest('An update is required');
   const petById = await petsPrisma.getPetById(pid);
   if (!petById) throw new Errors.NotFound('Pet not found');
-  const updatedPet = { ...petById, ...newPet };
-  console.log(updatedPet);
+  const uploadedImageUrl = await uploadImage(image);
+  newPet.necklace = Boolean(newPet.necklace);
+  if (newPet.weight) newPet.weight = Number(newPet.weight);
+  if (newPet.age) newPet.age = Number(newPet.age);
+
+  const updatedPet = {
+    ...petById,
+    ...newPet,
+    ...(image && { photo: uploadedImageUrl }),
+  };
+
   const result = await petsPrisma.updatePet(updatedPet);
   return result;
 };
 
-export { getAllPets, getPetById, deletePet, updatePet };
+const createPet = async (pet, image, user) => {
+  if (
+    !pet.type ||
+    // !pet.when ||
+    !pet.gender ||
+    !pet.necklace ||
+    !pet.lostOrFound ||
+    !pet.location ||
+    !image
+  )
+    throw new Errors.BadRequest('Required fields missing');
+  const uploadedImageUrl = await uploadImage(image);
+  const when = new Date().toISOString();
+  const newPet = {
+    ...pet,
+    photo: uploadedImageUrl,
+    when: when,
+    userId: user,
+    necklace: Boolean(pet.necklace),
+  };
+  const createdPet = await petsPrisma.createPet(newPet);
+  return createdPet;
+};
+
+export { getAllPets, getPetById, deletePet, updatePet, createPet };
