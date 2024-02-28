@@ -27,6 +27,7 @@ export const HomeLists = () => {
     axios.get("http://localhost:3000/pets").then((res) => {
       setPets(res.data);
     });
+    
   }, []);
 
   console.log("data del estado del componente : ", pets);

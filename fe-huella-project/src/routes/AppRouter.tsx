@@ -2,10 +2,14 @@
     import {  Root } from "../pages/Root";
     import { Register } from "../pages/Register";
     import { Home } from "../pages/Home";
-import { Login } from "../pages/Login";
-    
+    import { Login } from "../pages/Login";
+    import { About } from "../pages/About";
+
 
      export const router = createHashRouter([
+      
+    
+      
       {
         path: "/",
         element: <Root />,
@@ -21,6 +25,10 @@ import { Login } from "../pages/Login";
           {
             path:"/login",
             element:<Login/>
+          },
+          {
+            path:"/about",
+            element:<About/>
           }
         ],
       },

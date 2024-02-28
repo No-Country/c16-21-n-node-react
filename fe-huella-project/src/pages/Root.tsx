@@ -13,7 +13,7 @@ export const  Root = () => {
       <div className=" mt-10  ">
           
           
-          <Outlet></Outlet>
+      <Outlet></Outlet>
       
       
       </div>
