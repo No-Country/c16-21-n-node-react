@@ -138,8 +138,8 @@ const recoverPassword = async (email) => {
   const newPassword = generatePassword();
   recoverPasswordMailing(user.email, newPassword);
   user.password = encryptPass(newPassword);
-  const result = await usersPrisma.updateUser(updatedUser);
-  return result;
+  await usersPrisma.updateUser(updatedUser);
+  return token;
 };
 
 const resetPassword = async (password, user) => {
