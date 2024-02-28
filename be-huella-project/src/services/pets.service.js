@@ -52,6 +52,11 @@ const createPet = async (pet, image, user) => {
   )
     throw new Errors.BadRequest('Required fields missing');
   const uploadedImageUrl = await uploadImage(image);
+  Object.keys(pet).forEach((key) => {
+    if (pet[key] === '' || pet[key] === undefined) {
+      delete pet[key];
+    }
+  });
   const when = new Date().toISOString();
   const newPet = {
     ...pet,
