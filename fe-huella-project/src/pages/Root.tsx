@@ -3,7 +3,7 @@ import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
 
 
-export const  Root = () => {
+export const  Root : React.FC = () => {
  
   return (
     <main className="bg-gradient-to-t from-[#dbe4ee]  flex flex-col min-h-[100vh] ">
