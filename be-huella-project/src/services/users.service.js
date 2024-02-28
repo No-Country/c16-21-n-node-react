@@ -4,9 +4,9 @@ import UserDto from '../DTOs/user.dto.js';
 import {
   isValidPassword,
   generateToken,
-  verifyToken,
   encryptPass,
   isCorrectPassword,
+  generatePassword,
 } from '../utils/utils.js';
 import { recoverPasswordMailing } from '../utils/nodemailer.js';
 import { uploadImage } from '../middlewares/uploadImage.js';
@@ -43,6 +43,7 @@ const userCreate = async (user, image) => {
     user.profilePic = uploadedImageUrl;
   }
   const result = await usersPrisma.createUser(user);
+
   return result;
 };
 
@@ -73,6 +74,7 @@ const userUpdate = async (newUser, image, uid) => {
   if (newUser.alerts) {
     newUser.alerts = Boolean(newUser.alerts);
   }
+
   if (newUser.password) {
     const formatCorrect = isCorrectPassword(user.password);
     if (!formatCorrect) {
@@ -133,9 +135,11 @@ const recoverPassword = async (email) => {
   const user = await usersPrisma.getUserByEmail(email);
   const userDto = new UserDto(user);
   const token = generateToken(userDto);
-  const url = `http://localhost:${process.env.PORT}/api/users/recover-password/${user.id}`;
-  recoverPasswordMailing(user.email, url);
-  return token;
+  const newPassword = generatePassword();
+  recoverPasswordMailing(user.email, newPassword);
+  user.password = encryptPass(newPassword);
+  const result = await usersPrisma.updateUser(updatedUser);
+  return result;
 };
 
 const resetPassword = async (password, user) => {

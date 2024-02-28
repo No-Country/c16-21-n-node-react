@@ -9,14 +9,16 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const recoverPasswordMailing = async (email, url) => {
+const recoverPasswordMailing = async (email, newPassword) => {
   await transporter.sendMail({
     from: 'Huellap customer service',
     to: `${email}`,
     subject: 'Recupera tu contraseña.',
     html: `<h1>Huellap</h1>
-    <h3>Recupera tu contraseña</h3>
-    <p>Entra a este <a href=${url}>enlace</a> para recuperar tu contraseña.</p>
+    <h3>Hemos generado una nueva contraseña.</h3>
+    <p>Tu nueva contraseña es: ${newPassword}</p>
+    <br/>
+    <p>Puedes cambiarla desde tu perfil.</p>
     <h3>Muchas gracias!</h3>`,
   });
 };
