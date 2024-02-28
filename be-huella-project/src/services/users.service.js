@@ -73,6 +73,15 @@ const userUpdate = async (newUser, image, uid) => {
   if (newUser.alerts) {
     newUser.alerts = Boolean(newUser.alerts);
   }
+  if (newUser.password) {
+    const formatCorrect = isCorrectPassword(user.password);
+    if (!formatCorrect) {
+      throw new Errors.BadRequest(
+        `The password should contain At least one lowercase letter. At least one uppercase letter. At least one digit. At least one special character and Minimum length of 8 characters.`
+      );
+    }
+    newUser.password = encryptPass(newUser.password);
+  }
 
   const updatedUser = {
     ...userById,
