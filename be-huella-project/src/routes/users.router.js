@@ -11,7 +11,7 @@ router.put('/update', isAuth, upload, usersController.userUpdate);
 router.delete('/delete', isAuth, usersController.userDelete);
 router.post('/signin', upload, usersController.userCreate);
 router.get('/find', usersController.userFind);
-router.get('/:uid', isAuth, usersController.userFindId);
+router.get('/:uid', isAuth, usersController.getUserById);
 router.post('/login', usersController.login);
 
 export default router;

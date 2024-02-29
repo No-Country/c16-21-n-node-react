@@ -11,6 +11,7 @@ const getUserByEmail = async (email) => {
 const getUserById = async (uid) => {
   const result = await prisma.users.findUnique({
     where: { id: uid },
+    include: { pets: true },
   });
   return result;
 };
@@ -26,19 +27,24 @@ const createUser = async (user) => {
 };
 
 const deleteUser = async (user) => {
+  console.log(user);
   const result = await prisma.users.delete({ where: { id: user.id } });
   return result;
 };
 
 const updateUser = async (user) => {
-  const { id, ...updateData } = user;
-  const result = await prisma.users.update({ where: { id }, data: updateData });
+  const result = await prisma.users.update({
+    where: { id: user.id },
+    data: user,
+  });
   return result;
 };
 
 const findUser = async (user) => {
   const result = await prisma.users.findFirst({
-    where: { OR: [{ email: user.email, id: user.id }] },
+    where: {
+      OR: [{ email: user.email, id: user.id }],
+    },
   });
   return result;
 };
