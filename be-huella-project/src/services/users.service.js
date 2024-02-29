@@ -42,7 +42,16 @@ const userCreate = async (user, image) => {
     const uploadedImageUrl = await uploadImage(image);
     user.profilePic = uploadedImageUrl;
   }
+  if (user.admin) {
+    user.admin = Boolean(user.admin);
+  }
+
+  if (user.alerts) {
+    user.alerts = Boolean(user.alerts);
+  }
+
   const result = await usersPrisma.createUser(user);
+  delete result.password;
 
   return result;
 };
@@ -52,7 +61,7 @@ const userUpdate = async (newUser, image, uid) => {
     throw new Errors.BadRequest('You must update something');
   }
 
-  const userById = await userFindId(uid);
+  const userById = await usersPrisma.getUserById(uid);
 
   let uploadedImageUrl;
 
@@ -95,11 +104,13 @@ const userUpdate = async (newUser, image, uid) => {
   return result;
 };
 
-const userDelete = async (user) => {
-  if (!user) {
-    throw new Errors.BadRequest('Id atribute is required');
-  }
-  const result = await usersPrisma.deleteUser(user);
+const userDelete = async (uid) => {
+  const userById = await usersPrisma.getUserById(uid);
+
+  if (userById.id !== uid)
+    throw new Errors.Unathorized('Dont have credentials to delete this user');
+
+  const result = await usersPrisma.deleteUser(userById);
   return result;
 };
 
@@ -142,16 +153,16 @@ const recoverPassword = async (email) => {
   return token;
 };
 
-const resetPassword = async (password, user) => {
-  if (!password) throw new Errors.BadRequest('Password is required');
-  const userById = await usersPrisma.getUserById(user.id);
-  const isValid = isValidPassword(userById, password);
-  if (isValid)
-    throw new Errors.BadRequest(
-      'The password must be different to previous passwords'
-    );
-  const updateUser = 'Contraseña actualizada';
-  return updateUser;
+const login = async (email, password) => {
+  if (!email || !password)
+    throw new Errors.BadRequest('Email and Password are required');
+  const user = await usersPrisma.getUserByEmail(email);
+  if (!user) throw new Errors.NotFound('Email is not registered');
+  const isValid = isValidPassword(user, password);
+  if (!isValid) throw new Errors.BadRequest('Incorrect credentials');
+  delete user.password;
+  const token = generateToken(new UserDto(user));
+  return { user, token };
 };
 
 export {
@@ -162,5 +173,5 @@ export {
   userFind,
   userFindId,
   recoverPassword,
-  resetPassword,
+  login,
 };
