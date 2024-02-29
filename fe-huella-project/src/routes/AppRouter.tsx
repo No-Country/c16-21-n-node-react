@@ -5,6 +5,7 @@
     import { Login } from "../pages/Login";
     import { About } from "../pages/About";
     import { Error } from "../components/Error";
+import { RescuePasword } from "../pages/RescuePasword";
 
 
      export const router = createHashRouter([
@@ -32,6 +33,10 @@
           {
             path:"/about",
             element:<About/>
+          },
+          {
+            path:"/rescuepassword",
+            element:<RescuePasword/>
           }
         ],
       },
