@@ -1,27 +1,17 @@
 import { prisma } from '../../../config/dbConnection.js';
 
 const getUserByEmail = async (email) => {
-  const result = await prisma.users.findFirst({
-    where: { email: email },
-    include: { pets: true },
-  });
+  const result = await prisma.users.findFirst({ where: { email: email } });
   return result;
 };
 
 const getUserById = async (uid) => {
-  const result = await prisma.users.findUnique({
-    where: { id: uid },
-  });
+  const result = await prisma.users.findUnique({ where: { id: uid } });
   return result;
 };
 
 const createUser = async (user) => {
-  const result = await prisma.users.create({
-    data: user,
-    include: {
-      pets: true,
-    },
-  });
+  const result = await prisma.users.create({ data: user });
   return result;
 };
 
@@ -49,10 +39,7 @@ const findMany = async () => {
 };
 
 const findUserId = async (uid) => {
-  const result = await prisma.users.findUnique({
-    where: { id: uid },
-    include: { pets: true },
-  });
+  const result = await prisma.users.findUnique({ where: { id: uid } });
   return result;
 };
 

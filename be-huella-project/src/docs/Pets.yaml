@@ -145,7 +145,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /api/pets:
+  /api/pets/all:
     get:
       summary: Obtiene todas las mascotas de la BDD.
       tags:

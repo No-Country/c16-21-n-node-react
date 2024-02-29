@@ -12,7 +12,7 @@ const __mainDirname = path.join(__dirname, '..');
 const generateToken = (user) => {
   let exp = Date.now() + 3600 * 1000;
   const token = jwt.sign({ user, exp }, process.env.SECRETJWT);
-  return token;
+  return { token, exp };
 };
 
 const verifyToken = (token) => {
