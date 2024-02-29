@@ -6,8 +6,8 @@ const router = Router();
 
 router.get('/', petsController.getAllPets);
 router.get('/:pid', petsController.getPetById);
-router.post('/create', isAuth, upload, petsController.createPet);
-router.put('/update', upload, petsController.updatePet);
-router.delete('/delete', petsController.deletePet);
+router.post('/', isAuth, upload, petsController.createPet);
+router.put('/:pid', upload, petsController.updatePet);
+router.delete('/:pid', petsController.deletePet);
 
 export default router;

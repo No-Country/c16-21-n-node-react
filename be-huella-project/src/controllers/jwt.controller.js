@@ -1,10 +1,9 @@
 import { prisma } from '../config/dbConnection.js';
 import * as Errors from '../errors/custom-exeptions.js';
-import * as Utils from '../utils/utils.js';
+import * as Utils from '../utils/utils.js'
 import jwt from 'jsonwebtoken';
 
 const secret = process.env.SECRETJWT;
-
 const jwtCreate = async (req, res, next) => {
   //Consultar a la base de datos de la existencia del usuario
   try {
@@ -18,8 +17,8 @@ const jwtCreate = async (req, res, next) => {
       throw new Errors.NotFound('User Not found');
     }
     //comparar contraseñas y verificar si son correctas
-    const isValid = Utils.isValidPassword(user, password);
-
+    const isValid = Utils.isValidPassword(user, password);;
+    
     if (!isValid) {
       throw new Errors.Unathorized('Password incorrect');
     }
