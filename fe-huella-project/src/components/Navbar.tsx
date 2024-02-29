@@ -11,6 +11,7 @@ export const Navbar = () => {
       
       <li className=" mt-4 mr-6 "><Link className=" shadow-md shadow-gray-400 inline-block text-sm px-4 py-2 leading-none  rounded text-white bg-blue-buttons hover:border-transparent hover:shadow-none hover:text-blue-buttons hover:bg-white mt-4 lg:mt-0"  to={"/login"}>Login</Link></li>
       <li className=" mt-4 " ><Link className="  shadow-md shadow-gray-400  inline-block text-sm px-4 py-2 leading-none rounded text-white bg-blue-buttons  hover:border-transparent hover:shadow-none hover:text-blue-buttons hover:bg-white mt-4 lg:mt-0" to={"/register"}> Sign Up</Link></li>
+      <li className=" mt-4 " ><Link className="  shadow-md shadow-gray-400  inline-block text-sm px-4 py-2 leading-none rounded text-white bg-blue-buttons  hover:border-transparent hover:shadow-none hover:text-blue-buttons hover:bg-white mt-4 lg:mt-0" to={"/create"}> Create Pet</Link></li>
       
     </ul>
 

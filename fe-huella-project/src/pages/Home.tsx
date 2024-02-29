@@ -4,17 +4,6 @@ import { HomeLists } from "../components/HomeLists";
 
 export const Home = () => {
 
-
-
-
-
-
-
-
-
-
-
-
   return (
     <div>
       <section className="flex flex-col justify-center">
@@ -44,6 +33,9 @@ export const Home = () => {
          
           Crea Tu Cuenta
         </Link>
+        
+
+
       </section>
 
       <HomeLists >
