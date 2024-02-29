@@ -5,6 +5,7 @@ import { upload } from '../middlewares/multer.js';
 const router = Router();
 
 router.get('/', petsController.getAllPets);
+router.get('/:race?/:type?/:gender?/:location?/:lostOrFound?',  petsController.getAllPetsFilter);
 router.get('/:pid', petsController.getPetById);
 router.post('/', isAuth, upload, petsController.createPet);
 router.put('/:pid', upload, petsController.updatePet);

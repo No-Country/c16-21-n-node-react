@@ -9,6 +9,15 @@ const getAllPets = async (req, res, next) => {
   }
 };
 
+const getAllPetsFilter = async (req, res, next) => {
+  try {
+    const params = req.params;
+    const result = await petsService.getAllPetsFilter(params);
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 const getPetById = async (req, res, next) => {
   try {
     const { pid } = req.params;
@@ -49,4 +58,4 @@ const createPet = async (req, res, next) => {
   }
 };
 
-export { getAllPets, getPetById, createPet, deletePet, updatePet };
+export { getAllPets, getPetById, createPet, deletePet, updatePet, getAllPetsFilter };

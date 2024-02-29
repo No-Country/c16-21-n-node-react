@@ -26,7 +26,9 @@ app.use('/api/token-test', jwtTestRouter);
 app.use('/api/users/login', jwtRouter);
 
 app.use('/api/users', usersRouter);
+app.use('/api/pets/filter', petsRouter);
 app.use('/api/pets', petsRouter);
+
 
 app.use(middlewareErrorHandler);
 app.listen(config.port, () => console.log(`Listening on port ${config.port}`));
