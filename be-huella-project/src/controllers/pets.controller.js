@@ -23,8 +23,8 @@ const updatePet = async (req, res, next) => {
   try {
     const pet = { ...req.body };
     const { pid } = req.params;
-    const result = await petsService.updatePet(pid, pet, req.file);
-    res.send(result);
+    const result = await petsService.updatePet(pid, pet, req.file, req.user.id);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -33,8 +33,8 @@ const updatePet = async (req, res, next) => {
 const deletePet = async (req, res, next) => {
   try {
     const { pid } = req.params;
-    const result = await petsService.deletePet(pid);
-    res.json(result);
+    await petsService.deletePet(pid, req.user.id);
+    res.status(200).json({ message: 'Pet deleted successfully' });
   } catch (error) {
     next(error);
   }
@@ -43,7 +43,7 @@ const deletePet = async (req, res, next) => {
 const createPet = async (req, res, next) => {
   try {
     const result = await petsService.createPet(req.body, req.file, req.user);
-    res.send(result);
+    res.status(201).json(result);
   } catch (error) {
     next(error);
   }

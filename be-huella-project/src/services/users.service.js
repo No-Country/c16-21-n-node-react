@@ -52,7 +52,7 @@ const userUpdate = async (newUser, image, uid) => {
     throw new Errors.BadRequest('You must update something');
   }
 
-  const userById = await userFindId(uid);
+  const userById = await usersPrisma.findUser({ id: uid });
 
   let uploadedImageUrl;
 
@@ -76,7 +76,7 @@ const userUpdate = async (newUser, image, uid) => {
   }
 
   if (newUser.password) {
-    const formatCorrect = isCorrectPassword(user.password);
+    const formatCorrect = isCorrectPassword(newUser.password);
     if (!formatCorrect) {
       throw new Errors.BadRequest(
         `The password should contain At least one lowercase letter. At least one uppercase letter. At least one digit. At least one special character and Minimum length of 8 characters.`
@@ -90,16 +90,17 @@ const userUpdate = async (newUser, image, uid) => {
     ...newUser,
     ...(image && { profilePic: uploadedImageUrl }),
   };
-
   const result = await usersPrisma.updateUser(updatedUser);
+  delete result.password;
   return result;
 };
 
-const userDelete = async (user) => {
-  if (!user) {
-    throw new Errors.BadRequest('Id atribute is required');
-  }
-  const result = await usersPrisma.deleteUser(user);
+const userDelete = async (uid) => {
+  const userById = await usersPrisma.getUserById(uid);
+  if (!userById) throw new Errors.NotFound('User not found');
+  if (userById.id !== uid)
+    throw new Errors.Unathorized('Dont have credentials to delete this user');
+  const result = await usersPrisma.deleteUser(userById);
   return result;
 };
 
@@ -118,11 +119,11 @@ const userFind = async (user) => {
   return result;
 };
 
-const userFindId = async (uid) => {
+const getUserById = async (uid) => {
   if (!uid) {
     throw new Errors.BadRequest('Id atribute is required');
   }
-  const result = await usersPrisma.findUserId(uid);
+  const result = await usersPrisma.getUserById(uid);
   delete result.password;
   if (!result) {
     throw new Errors.NotFound(`The user id ${uid} does not exist`);
@@ -133,13 +134,12 @@ const userFindId = async (uid) => {
 const recoverPassword = async (email) => {
   if (!email) throw new Errors.BadRequest('Email is required');
   const user = await usersPrisma.getUserByEmail(email);
-  const userDto = new UserDto(user);
-  const token = generateToken(userDto);
   const newPassword = generatePassword();
   recoverPasswordMailing(user.email, newPassword);
   user.password = encryptPass(newPassword);
-  await usersPrisma.updateUser(updatedUser);
-  return token;
+  delete user.pets;
+  await usersPrisma.updateUser(user);
+  return;
 };
 
 const resetPassword = async (password, user) => {
@@ -160,7 +160,7 @@ export {
   userDelete,
   userUpdate,
   userFind,
-  userFindId,
+  getUserById,
   recoverPassword,
   resetPassword,
 };
