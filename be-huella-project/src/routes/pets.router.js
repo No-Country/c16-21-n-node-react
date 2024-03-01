@@ -5,9 +5,9 @@ import { upload } from '../middlewares/multer.js';
 const router = Router();
 
 router.get('/', petsController.getAllPets);
-router.get('/:pid', isAuth, petsController.getPetById);
-router.post('/create', isAuth, upload, petsController.createPet);
-router.put('/update/:pid', upload, isAuth, petsController.updatePet);
-router.delete('/delete/:pid', isAuth, petsController.deletePet);
+router.get('/:pid', petsController.getPetById);
+router.post('/', isAuth, upload, petsController.createPet);
+router.put('/:pid', upload, petsController.updatePet);
+router.delete('/:pid', petsController.deletePet);
 
 export default router;
