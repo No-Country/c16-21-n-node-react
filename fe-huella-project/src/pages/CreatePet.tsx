@@ -5,7 +5,7 @@ import axios from "axios";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import dogCreate from "../assets/Perro create card .png";
-
+import { useAuth } from "../components/AuthContext";
 interface CreateFormValues {
     name: string;
     race: string;
@@ -20,44 +20,29 @@ interface CreateFormValues {
   when: string;
 }
 
-// {
-//     "name": "string",
-//     "race": "string",
-//     "type": "string",
-//     "photo": "string",
-//     "location": "string",
-//     "gender": "string",
-//     "lostOrFound": "string",
-//     "necklace": true,
-//     "weight": 0,
-//     "age": 0,
-//     "when": "2024-02-29T18:21:29.200Z"
-//   }
+
 
 export const CreatePet: React.FC = () => {
   const { register, handleSubmit } = useForm<CreateFormValues>();
   const navigate = useNavigate();
-
+  const { user } = useAuth();
 
   const { mutate } = useMutation(
+    
     async (data: CreateFormValues) => {
-      const response = await axios.post("https://apihuellapptest.up.railway.app/api/pets/create", data);
+      const response = await axios.post("https://apihuellapptest.up.railway.app/api/pets", data, {
+        headers: {
+          Authorization: `Bearer ${user.accesstoken}`
+        }
+      });
       console.log(response.data);
     }
   );
- 
- // defino una función onSubmit que se ejecuta cuando se envía el formulario. Dentro de esta función se llama a la función mutate del hook useMutation para hacer una petición POST a un endpoint de la API. Si la petición es exitosa, se muestra un mensaje de "Registro exitoso" y se redirige al usuario a la página principal. En caso de error, se muestra un mensaje de error en la consola.
-  // La función mutate se utiliza en este código para enviar una solicitud de registro de usuario a la API utilizando el método POST de axios. Cuando se llama a la función mutate, se pasa el objeto de datos del formulario (data) como argumento, junto con un objeto de configuración que incluye dos propiedades: onSuccess y onError.
 
-
-  // La propiedad onSuccess se ejecuta si la solicitud de registro es exitosa, imprime "Registro exitoso" en la consola y navega al inicio ("/").
-  // La propiedad onError se ejecuta si hay algún error en la solicitud de registro, mostrando un mensaje de error en la consola.
-  // En resumen, la función mutate se utiliza para gestionar la llamada a la API para registrar un nuevo usuario, y manejar tanto eventos exitosos como errores de forma adecuada.
- 
   const onSubmit: SubmitHandler<CreateFormValues> = (data) => {
     mutate(data, {
       onSuccess: () => {
-        console.log("Mascota creada con exitos");
+        console.log("Mascota creada con éxito");
         navigate("/login");
       },
       onError: (error) => {
@@ -65,7 +50,6 @@ export const CreatePet: React.FC = () => {
       },
     });
   };
-
 
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>

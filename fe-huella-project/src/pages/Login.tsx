@@ -4,29 +4,25 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../components/AuthContext";
 
 interface LoginFormValues {
   email: string;
   password: string;
-
-
 }
-
 
 export const Login: React.FC = () => {
   const { register, handleSubmit } = useForm<LoginFormValues>();
   const navigate = useNavigate();
-
+  const { setUser } = useAuth();
 
   const { mutate } = useMutation(
     async (data: LoginFormValues) => {
       const response = await axios.post("https://apihuellapptest.up.railway.app/api/users/login", data);
-      console.log(response.data);
+      const { accesstoken, jwt } = response.data;
+      setUser({ accesstoken, jwt });
     }
   );
- 
-
 
   const onSubmit: SubmitHandler<LoginFormValues> = (data) => {
     mutate(data, {
