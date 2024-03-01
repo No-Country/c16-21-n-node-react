@@ -42,16 +42,7 @@ const userCreate = async (user, image) => {
     const uploadedImageUrl = await uploadImage(image);
     user.profilePic = uploadedImageUrl;
   }
-  if (user.admin) {
-    user.admin = Boolean(user.admin);
-  }
-
-  if (user.alerts) {
-    user.alerts = Boolean(user.alerts);
-  }
-
   const result = await usersPrisma.createUser(user);
-  delete result.password;
 
   return result;
 };
@@ -151,16 +142,16 @@ const recoverPassword = async (email) => {
   return;
 };
 
-const login = async (email, password) => {
-  if (!email || !password)
-    throw new Errors.BadRequest('Email and Password are required');
-  const user = await usersPrisma.getUserByEmail(email);
-  if (!user) throw new Errors.NotFound('Email is not registered');
-  const isValid = isValidPassword(user, password);
-  if (!isValid) throw new Errors.BadRequest('Incorrect credentials');
-  delete user.password;
-  const token = generateToken(new UserDto(user));
-  return { user, token };
+const resetPassword = async (password, user) => {
+  if (!password) throw new Errors.BadRequest('Password is required');
+  const userById = await usersPrisma.getUserById(user.id);
+  const isValid = isValidPassword(userById, password);
+  if (isValid)
+    throw new Errors.BadRequest(
+      'The password must be different to previous passwords'
+    );
+  const updateUser = 'Contraseña actualizada';
+  return updateUser;
 };
 
 export {
@@ -171,5 +162,5 @@ export {
   userFind,
   getUserById,
   recoverPassword,
-  login,
+  resetPassword,
 };
