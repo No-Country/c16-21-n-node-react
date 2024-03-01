@@ -11,7 +11,7 @@ import petsRouter from './routes/pets.router.js';
 import { swaggerSpecs } from './utils/swagger.js';
 import { middlewareErrorHandler } from './errors/error-handler.js';
 import usersRouter from './routes/users.router.js';
-
+import cors from 'cors';
 const app = express();
 
 app.use(express.json());
@@ -20,11 +20,6 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
-app.use('/api/users-test', userTestRouter);
-app.use('/api/pets-test', petTestRouter);
-app.use('/api/token-test', jwtTestRouter);
-app.use('/api/users/login', jwtRouter);
-
 app.use('/api/users', usersRouter);
 app.use('/api/pets', petsRouter);
 
