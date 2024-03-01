@@ -101,6 +101,18 @@ const userDelete = async (req, res, next) => {
   }
 };
 
+const login = async (email, password) => {
+  if (!email || !password)
+    throw new Errors.BadRequest('Email and Password are required');
+  const user = await usersPrisma.getUserByEmail(email);
+  if (!user) throw new Errors.NotFound('Email is not registered');
+  const isValid = isValidPassword(user, password);
+  if (!isValid) throw new Errors.BadRequest('Incorrect credentials');
+  delete user.password;
+  const token = generateToken(new UserDto(user));
+  return { user, token };
+};
+
 export {
   getAllUsers,
   userCreate,
