@@ -110,4 +110,5 @@ export {
   getUserById,
   recoverPassword,
   resetPassword,
+  login,
 };
