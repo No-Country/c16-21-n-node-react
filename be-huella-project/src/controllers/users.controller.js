@@ -13,17 +13,6 @@ const recoverPassword = async (req, res, next) => {
   }
 };
 
-const resetPassword = async (req, res, next) => {
-  try {
-    const { password } = req.body;
-    const user = req.user;
-    const result = await usersService.resetPassword(password, user);
-    usersService.res.send(result);
-  } catch (error) {
-    next(error);
-  }
-};
-
 const userCreate = async (req, res, next) => {
   try {
     const user = req.body;
@@ -36,7 +25,11 @@ const userCreate = async (req, res, next) => {
 
 const userUpdate = async (req, res, next) => {
   try {
-    const result = await usersService.userUpdate(req.body, req.file, req.user);
+    const result = await usersService.userUpdate(
+      req.body,
+      req.file,
+      req.user.id
+    );
     res.send(result);
   } catch (error) {
     next(error);
@@ -73,7 +66,7 @@ const getUserById = async (req, res, next) => {
       throw new Errors.NotFound('User Not found');
     }
 
-    return res.status(200).json({ data: result });
+    return res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -86,7 +79,7 @@ const getAllUsers = async (req, res, next) => {
       throw new Errors.NotFound('Users Not found');
     }
 
-    return res.status(200).json({ data: result });
+    return res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -101,6 +94,19 @@ const userDelete = async (req, res, next) => {
   }
 };
 
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const { user, token } = await usersService.login(email, password);
+    return res
+      .cookie('jwt', token)
+      .status(200)
+      .json({ user, accessToken: token });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   getAllUsers,
   userCreate,
@@ -109,6 +115,5 @@ export {
   userFind,
   getUserById,
   recoverPassword,
-  resetPassword,
   login,
 };
