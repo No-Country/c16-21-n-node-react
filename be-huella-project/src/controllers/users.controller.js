@@ -4,8 +4,10 @@ import * as usersService from '../services/users.service.js';
 const recoverPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
-    const token = await usersService.recoverPassword(email);
-    res.cookie('recoverPasswordCookie', token).status(200).send({ token });
+    await usersService.recoverPassword(email);
+    res
+      .status(200)
+      .json({ message: 'We sent you an email with your new password' });
   } catch (error) {
     next(error);
   }

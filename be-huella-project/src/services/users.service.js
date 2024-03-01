@@ -143,14 +143,12 @@ const getUserById = async (uid) => {
 const recoverPassword = async (email) => {
   if (!email) throw new Errors.BadRequest('Email is required');
   const user = await usersPrisma.getUserByEmail(email);
-  const userDto = new UserDto(user);
-  const token = generateToken(userDto);
   const newPassword = generatePassword();
   recoverPasswordMailing(user.email, newPassword);
   user.password = encryptPass(newPassword);
   delete user.pets;
   await usersPrisma.updateUser(user);
-  return token;
+  return;
 };
 
 const login = async (email, password) => {
