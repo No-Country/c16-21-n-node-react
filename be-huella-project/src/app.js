@@ -11,7 +11,6 @@ import petsRouter from './routes/pets.router.js';
 import { swaggerSpecs } from './utils/swagger.js';
 import { middlewareErrorHandler } from './errors/error-handler.js';
 import usersRouter from './routes/users.router.js';
-import cors from 'cors';
 const app = express();
 
 app.use(express.json());
