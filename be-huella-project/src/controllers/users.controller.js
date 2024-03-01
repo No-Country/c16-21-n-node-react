@@ -101,16 +101,17 @@ const userDelete = async (req, res, next) => {
   }
 };
 
-const login = async (email, password) => {
-  if (!email || !password)
-    throw new Errors.BadRequest('Email and Password are required');
-  const user = await usersPrisma.getUserByEmail(email);
-  if (!user) throw new Errors.NotFound('Email is not registered');
-  const isValid = isValidPassword(user, password);
-  if (!isValid) throw new Errors.BadRequest('Incorrect credentials');
-  delete user.password;
-  const token = generateToken(new UserDto(user));
-  return { user, token };
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const { user, token } = await usersService.login(email, password);
+    return res
+      .cookie('jwt', token)
+      .status(200)
+      .json({ user, accessToken: token });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export {
