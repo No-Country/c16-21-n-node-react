@@ -63,8 +63,8 @@ const createPet = async (pet, image, user) => {
   });
   if (pet.weight) pet.weight = Number(pet.weight);
   if (pet.age) pet.age = Number(pet.age);
-
-  const when = new Date().toISOString();
+  let when;
+  if (!when) when = new Date().toISOString();
 
   const newPet = {
     ...pet,
