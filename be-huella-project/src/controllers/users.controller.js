@@ -1,12 +1,13 @@
-import { log } from 'console';
 import * as Errors from '../errors/custom-exeptions.js';
 import * as usersService from '../services/users.service.js';
 
 const recoverPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
-    const token = await usersService.recoverPassword(email);
-    res.cookie('recoverPasswordCookie', token).status(200).send({ token });
+    await usersService.recoverPassword(email);
+    res
+      .status(200)
+      .json({ message: 'We sent you an email with your new password' });
   } catch (error) {
     next(error);
   }
@@ -60,13 +61,13 @@ const userFind = async (req, res, next) => {
   }
 };
 
-const userFindId = async (req, res, next) => {
+const getUserById = async (req, res, next) => {
   try {
     const { uid } = req.params;
     if (!uid) {
       throw new Errors.BadRequest('The Id field is required');
     }
-    const result = await usersService.userFindId(uid);
+    const result = await usersService.getUserById(uid);
 
     if (!result) {
       throw new Errors.NotFound('User Not found');
@@ -93,9 +94,8 @@ const getAllUsers = async (req, res, next) => {
 
 const userDelete = async (req, res, next) => {
   try {
-    const user = req.body;
-    const result = await usersService.userDelete(user);
-    res.send(result);
+    await usersService.userDelete(req.user.id);
+    res.status(200).send('El usuario ha sido eliminado...');
   } catch (error) {
     next(error);
   }
@@ -107,7 +107,7 @@ export {
   userDelete,
   userUpdate,
   userFind,
-  userFindId,
+  getUserById,
   recoverPassword,
   resetPassword,
 };

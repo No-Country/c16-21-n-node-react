@@ -143,7 +143,29 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                type: object
+                properties:
+                  username:
+                    type: string
+                    description: Nombre de usuario del usuario.
+                  email:
+                    type: string
+                    description: Email del usuario.
+                  phone:
+                    type: string
+                    description: Teléfono del usuario.
+                  profilePic:
+                    type: string
+                    description: Imagen de perfil del usuario.
+                  location:
+                    type: string
+                    description: Ubicación del usuario.
+                  admin:
+                    type: boolean
+                    description: Si es administrador o no.
+                  alerts:
+                    type: boolean
+                    description: Si tiene activadas las notificaciones o no.
         "Error":
           description: "Error"
           content:
