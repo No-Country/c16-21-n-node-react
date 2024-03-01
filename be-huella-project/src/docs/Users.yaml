@@ -27,7 +27,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Token"
+                type: object
+                properties:
+                  user:
+                    $ref: "#/components/schemas/User"
+                  accessToken:
+                    type: string
         "Error":
           description: "Error"
           content:
@@ -35,7 +40,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /api/users/register:
+  /api/users/signin:
     post:
       summary: Envía los datos del usuario para registrarse en el sistema.
       tags:
@@ -74,7 +79,11 @@ paths:
                 - location
       responses:
         "200":
-          $ref: "#/components/responses/OK"
+          description: "Usuario registrado con éxito"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
         "Error":
           description: "Error"
           content:
@@ -108,7 +117,6 @@ paths:
         - Users
       parameters:
         - $ref: "#/components/parameters/token"
-        - $ref: "#/components/parameters/uid"
       requestBody:
         required: true
         content:
@@ -135,6 +143,12 @@ paths:
                 location:
                   type: string
                   description: Ubicación del usuario.
+                admin:
+                  type: boolean
+                  description: Si es administrador o no.
+                alerts:
+                  type: boolean
+                  description: Si tiene activadas las notificaciones o no.
               required: []  # Ningún campo es obligatorio
       responses:
         "200":
@@ -188,20 +202,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  # /api/users/alerts:
-  #   post:
-  #     summary: Activa o desactiva las alertas.
-  #     tags:
-  #       - Users
-  #     parameters:
-  #       - $ref: "#/components/parameters/token"
-  #     responses:
-  #       "200":
-  #         $ref: "#/components/responses/OK"
-  #       "403":
-  #         $ref: "#/components/responses/Unauthorized"
-  #       "500":
-  #         $ref: "#/components/responses/ServerError"
+  /api/users/recover-password:
+    post:
+      summary: Recupera la contraseña de un usuario.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email del usuario.
+      responses:
+        "200":
+          $ref: "#/components/responses/OK"
+        "Error":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
 components:
   responses:
@@ -245,6 +269,12 @@ components:
         location:
           type: string
           description: Ubicación del usuario.
+        admin:
+          type: boolean
+          description: Si es administrador o no.
+        alerts:
+          type: boolean
+          description: Si tiene activadas las notificaciones o no.
         pets:
           type: array
           description: Mascotas publicadas por el usuario.
@@ -256,9 +286,6 @@ components:
         accessToken:
           type: string
           description: El token de acceso generado para autenticación.
-        expiresIn:
-          type: integer
-          description: El tiempo en segundos hasta que el token expire.
     Error:
       type: object
       properties:
