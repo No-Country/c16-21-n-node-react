@@ -15,6 +15,11 @@ const generateToken = (user) => {
   return token;
 };
 
+const userOwnsPet = (pet, uid) => {
+  if (pet.userId !== uid) throw new Errors.Forbidden('You dont own this pet');
+  return;
+};
+
 const verifyToken = (token) => {
   const verifiedToken = jwt.verify(token, process.env.SECRETJWT);
   if (!verifiedToken) throw new Errors.Unathorized('Not authorized');
@@ -84,4 +89,5 @@ export {
   encryptPass,
   isCorrectPassword,
   generatePassword,
+  userOwnsPet,
 };
