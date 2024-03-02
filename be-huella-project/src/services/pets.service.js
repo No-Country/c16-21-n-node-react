@@ -1,6 +1,7 @@
 import * as petsPrisma from '../dao/managers/prismaManager/pets.prisma.js';
 import * as Errors from '../errors/custom-exeptions.js';
 import { uploadImage } from '../middlewares/uploadImage.js';
+import { userOwnsPet } from '../utils/utils.js';
 
 const getAllPets = async () => {
   const pets = await petsPrisma.getAllPets();
@@ -19,20 +20,23 @@ const getPetById = async (pid) => {
   return pet;
 };
 
-const deletePet = async (pid) => {
+const deletePet = async (pid, uid) => {
   const pet = await petsPrisma.getPetById(pid);
   if (!pet) throw new Errors.NotFound('Pet not found');
+  userOwnsPet(pet, uid);
   const result = await petsPrisma.deletePet(pid);
   return result;
 };
 
-const updatePet = async (pid, newPet, image) => {
+const updatePet = async (pid, newPet, image, uid) => {
   if (!pid) throw new Errors.BadRequest('Pet ID is required');
   if (!newPet) throw new Errors.BadRequest('An update is required');
   const petById = await petsPrisma.getPetById(pid);
   if (!petById) throw new Errors.NotFound('Pet not found');
-  const uploadedImageUrl = await uploadImage(image);
-  newPet.necklace = Boolean(newPet.necklace);
+  userOwnsPet(petById, uid);
+  let uploadedImageUrl;
+  if (image) uploadedImageUrl = await uploadImage(image);
+  if ('necklace' in newPet) newPet.necklace = Boolean(newPet.necklace);
   if (newPet.weight) newPet.weight = Number(newPet.weight);
   if (newPet.age) newPet.age = Number(newPet.age);
 
@@ -63,12 +67,16 @@ const createPet = async (pet, image, user) => {
       delete pet[key];
     }
   });
-  const when = new Date().toISOString();
+  if (pet.weight) pet.weight = Number(pet.weight);
+  if (pet.age) pet.age = Number(pet.age);
+  let when;
+  if (!when) when = new Date().toISOString();
+
   const newPet = {
     ...pet,
     photo: uploadedImageUrl,
     when: when,
-    userId: user,
+    userId: user.id,
     necklace: Boolean(pet.necklace),
   };
   const createdPet = await petsPrisma.createPet(newPet);

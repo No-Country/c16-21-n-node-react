@@ -12,7 +12,12 @@ const __mainDirname = path.join(__dirname, '..');
 const generateToken = (user) => {
   let exp = Date.now() + 3600 * 1000;
   const token = jwt.sign({ user, exp }, process.env.SECRETJWT);
-  return { token, exp };
+  return token;
+};
+
+const userOwnsPet = (pet, uid) => {
+  if (pet.userId !== uid) throw new Errors.Forbidden('You dont own this pet');
+  return;
 };
 
 const verifyToken = (token) => {
@@ -84,4 +89,5 @@ export {
   encryptPass,
   isCorrectPassword,
   generatePassword,
+  userOwnsPet,
 };
