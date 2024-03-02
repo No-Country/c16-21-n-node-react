@@ -1,9 +1,9 @@
-// AuthContext.tsx
+
 import { createContext, useContext, useState, ReactNode } from "react";
 
 interface User {
-  accesstoken: string;
-  jwt: string;
+  accessToken: string;
+  Token: string;
 }
      
 interface AuthContextType {
@@ -20,9 +20,20 @@ export const useAuth = () => {
   }
   return context;
 };
+export const getUserFromAccessToken = (accessToken: string) => {
+  try {
+    const tokenData = accessToken.split('.')[1];
+    const decodedToken = JSON.parse(atob(tokenData));
+    return decodedToken.user;
+  } catch (error) {
+    console.error("Error al decodificar el token: ", error);
+    return null;
+  }
+}
+
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User>({ accesstoken: "", jwt: "" });
+  const [user, setUser] = useState<User>({ accessToken: "",  Token: "" });
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

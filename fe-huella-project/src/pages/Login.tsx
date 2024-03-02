@@ -19,8 +19,10 @@ export const Login: React.FC = () => {
   const { mutate } = useMutation(
     async (data: LoginFormValues) => {
       const response = await axios.post("https://apihuellapptest.up.railway.app/api/users/login", data);
-      const { accesstoken, jwt } = response.data;
-      setUser({ accesstoken, jwt });
+  console.log(response.data)   
+   const { accessToken, Token} = response.data;   
+      setUser({ accessToken, Token  });
+   
     }
   );
 

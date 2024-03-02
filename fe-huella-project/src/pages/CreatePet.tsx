@@ -6,6 +6,8 @@ import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import dogCreate from "../assets/Perro create card .png";
 import { useAuth } from "../components/AuthContext";
+import { getUserFromAccessToken } from "../components/AuthContext";
+
 interface CreateFormValues {
     name: string;
     race: string;
@@ -25,16 +27,20 @@ interface CreateFormValues {
 export const CreatePet: React.FC = () => {
   const { register, handleSubmit } = useForm<CreateFormValues>();
   const navigate = useNavigate();
-  const { user } = useAuth();
 
+
+  const { user } = useAuth();
+  const authenticatedUser = getUserFromAccessToken(user.accessToken);
+
+  
   const { mutate } = useMutation(
-    
     async (data: CreateFormValues) => {
       const response = await axios.post("https://apihuellapptest.up.railway.app/api/pets", data, {
         headers: {
-          Authorization: `Bearer ${user.accesstoken}`
+            Authorization: `Bearer ${user.accessToken}`
         }
-      });
+    });
+    
       console.log(response.data);
     }
   );
