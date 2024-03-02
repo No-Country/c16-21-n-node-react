@@ -5,8 +5,34 @@ const createPet = async (pet) => {
   return result;
 };
 
-const getAllPets = async () => {
-  const result = await prisma.pets.findMany({});
+const getAllPets = async (params) => {
+  
+  let queryParams = {};
+  if (params) {
+    const { race, type, gender, location, lostOrFound } = params;
+
+    if (race !== '' && race !== 'all' && race !== undefined) {
+      queryParams.where = { race };
+    }
+
+    if (type  !== '' && type !== 'all' && race !==undefined) {
+      queryParams.where = { ...queryParams.where, type };
+    }
+
+    if (gender !== '' && gender !== 'all' && gender !== undefined) {
+      queryParams.where = { ...queryParams.where, gender };
+    }
+
+    if (location !== '' && location !== 'all' && location !== undefined) {
+      queryParams.where = { ...queryParams.where, location };
+    }
+
+    if (lostOrFound !== '' && lostOrFound !== 'all' && lostOrFound !== undefined) {
+      queryParams.where = { ...queryParams.where, lostOrFound };
+    }    
+  }
+  
+  const result = await prisma.pets.findMany(queryParams);
   return result;
 };
 

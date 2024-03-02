@@ -8,6 +8,12 @@ const getAllPets = async () => {
   if (!pets) throw new Errors.NotFound('Any pets in the database');
   return pets;
 };
+
+const getAllPetsFilter = async (params) => {
+  const pets = await petsPrisma.getAllPets(params);
+  if (!pets) throw new Errors.NotFound('Any pets in the database');
+  return pets;
+};
 const getPetById = async (pid) => {
   const pet = await petsPrisma.getPetById(pid);
   if (!pet) throw new Errors.NotFound('Pet not found');
@@ -77,4 +83,4 @@ const createPet = async (pet, image, user) => {
   return createdPet;
 };
 
-export { getAllPets, getPetById, deletePet, updatePet, createPet };
+export { getAllPets, getPetById, deletePet, updatePet, createPet, getAllPetsFilter };

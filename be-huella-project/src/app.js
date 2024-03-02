@@ -18,5 +18,6 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.use('/api/users', usersRouter);
 app.use('/api/pets', petsRouter);
 
+
 app.use(middlewareErrorHandler);
 app.listen(config.port, () => console.log(`Listening on port ${config.port}`));
