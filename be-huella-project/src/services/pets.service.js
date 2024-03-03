@@ -57,8 +57,7 @@ const createPet = async (pet, image, user) => {
     !pet.gender ||
     !pet.necklace ||
     !pet.lostOrFound ||
-    !pet.location ||
-    !image
+    !pet.location
   )
     throw new Errors.BadRequest('Required fields missing');
   const uploadedImageUrl = await uploadImage(image);

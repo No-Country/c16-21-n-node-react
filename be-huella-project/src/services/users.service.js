@@ -76,12 +76,12 @@ const userUpdate = async (newUser, image, uid) => {
     }
   });
 
-  if (newUser.admin) {
-    newUser.admin = Boolean(newUser.admin);
+  if (newUser.admin !== undefined) {
+    newUser.admin = String(newUser.admin).toLowerCase() === 'true';
   }
 
-  if (newUser.alerts) {
-    newUser.alerts = Boolean(newUser.alerts);
+  if (newUser.alerts !== undefined) {
+    newUser.alerts = String(newUser.alerts).toLowerCase() === 'true';
   }
 
   if (newUser.password) {
