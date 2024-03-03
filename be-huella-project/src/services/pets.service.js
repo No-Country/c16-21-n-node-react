@@ -60,7 +60,8 @@ const createPet = async (pet, image, user) => {
     !pet.location
   )
     throw new Errors.BadRequest('Required fields missing');
-  const uploadedImageUrl = await uploadImage(image);
+  let uploadedImageUrl;
+  if (image) uploadedImageUrl = await uploadImage(image);
   Object.keys(pet).forEach((key) => {
     if (pet[key] === '' || pet[key] === undefined) {
       delete pet[key];
@@ -70,10 +71,9 @@ const createPet = async (pet, image, user) => {
   if (pet.age) pet.age = Number(pet.age);
   let when;
   if (!when) when = new Date().toISOString();
-
   const newPet = {
     ...pet,
-    photo: uploadedImageUrl,
+    photo: pet.photo ? pet.photo : uploadedImageUrl,
     when: when,
     userId: user.id,
     necklace: Boolean(pet.necklace),
