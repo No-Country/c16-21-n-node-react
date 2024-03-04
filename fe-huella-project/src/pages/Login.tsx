@@ -29,8 +29,8 @@ export const Login: React.FC = () => {
     async (data: LoginFormValues) => {
       const response = await axios.post("https://apihuellapptest.up.railway.app/api/users/login", data);
   console.log(response.data)  
-   const { accessToken} = response.data;  
-      setUser({ accessToken });
+   const { accessToken,id} = response.data;  
+      setUser({ accessToken,id });
    
     }
   );

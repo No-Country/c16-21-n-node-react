@@ -7,7 +7,7 @@ export const Navbar = () => {
   const { user, setUser } = useAuth();
 
   const handleLogout = () => {
-    setUser({ accessToken: "" });
+    setUser({ accessToken: "" , id:"" });
   }
 
 
