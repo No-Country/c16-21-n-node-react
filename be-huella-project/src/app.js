@@ -16,6 +16,8 @@ app.use(
   cors({
     credentials: true,
     origin: '*',
+    accessControlAllowCredentials: true,
+    optionSuccessStatus: 200,
   })
 );
 
