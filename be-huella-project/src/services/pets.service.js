@@ -53,7 +53,7 @@ const updatePet = async (pid, newPet, image, uid) => {
 const createPet = async (pet, image, user) => {
   if (
     !pet.type ||
-    // !pet.when ||
+    !pet.when ||
     !pet.gender ||
     !pet.necklace ||
     !pet.lostOrFound ||
@@ -69,14 +69,15 @@ const createPet = async (pet, image, user) => {
   });
   if (pet.weight) pet.weight = Number(pet.weight);
   if (pet.age) pet.age = Number(pet.age);
-  let when;
-  if (!when) when = new Date().toISOString();
+
+  const when = new Date(pet.when);
+
   const newPet = {
     ...pet,
     photo: pet.photo ? pet.photo : uploadedImageUrl,
-    when: when,
     userId: user.id,
     necklace: Boolean(pet.necklace),
+    when: when,
   };
   const createdPet = await petsPrisma.createPet(newPet);
   return createdPet;

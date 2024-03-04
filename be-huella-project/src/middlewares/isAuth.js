@@ -29,7 +29,6 @@ export const isAuth = async (req, res, next) => {
 
     const decodedToken = verifyToken(token);
     req.user = decodedToken.user;
-
     next();
   } catch (error) {
     next(error);
