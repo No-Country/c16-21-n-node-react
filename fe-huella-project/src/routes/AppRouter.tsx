@@ -10,7 +10,7 @@ import {CreatePet} from "../pages/CreatePet.tsx"
 
 
      export const router = createHashRouter([
-    
+
       {
         path: "/",
         element: <Root />,
