@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation } from "react-query";
-import fotoperro from "../assets/perroImagen.jpg"
+//import fotoperro from "../assets/perroImagen.jpg"
 
 interface CreateFormValues {
     name: string;
@@ -54,7 +54,7 @@ export const Petprofile = () => {
         <div className="w-[50%] shadow-2xl">
             <div className=" m-auto overflow-hidden rounded-xl w-[18rem] h-[18rem] ">
                 
-                <img src={fotoperro}  alt="fotodoggie" className="  object-cover  h-[85%] " />
+                {/* <img src={fotoperro}  alt="fotodoggie" className="  object-cover  h-[85%] " /> */}
                 
                 
                 <div className=" bg-white flex  w-[100%] h-[15%] ">

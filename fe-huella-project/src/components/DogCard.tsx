@@ -1,7 +1,4 @@
-import perroImagen from '../assets/perroImagen.jpg'
-
-
-
+//import perroImagen from '../assets/perroImagen.jpg'
 interface Props{
       pet:{
         id: string,
@@ -31,7 +28,8 @@ export const DogCard = ({pet} : Props ) => {
   return (
  
     <div className=" m-4 w-[12rem] h-[18rem] max-w-sm rounded-3xl overflow-hidden shadow-lg">
-      <img className="w-full h-[60%] object-cover " src={perroImagen} alt="Sunset in the mountains"/>
+      <img className="w-full h-[60%] object-cover " />
+      {/* // src={perroImagen} alt="Sunset in the mountains" */}
       <div className="px-6 py-4">
         
       <ul>
