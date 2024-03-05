@@ -1,4 +1,3 @@
-
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { useMutation } from "react-query";
@@ -10,7 +9,7 @@ import { useDropzone } from 'react-dropzone';
 
 
 interface CreateFormValues {
-    name: string;
+  name: string;
     race: string;
     type: string;
     image: File,
@@ -36,7 +35,7 @@ export const CreatePet: React.FC = () => {
   
       const response = await axios.post("https://apihuellapptest.up.railway.app/api/pets/create", data, {
         headers: {
-            Authorization: Bearer ${user.accessToken}
+            Authorization: `Bearer ${user.accessToken}`
         }
     });
    
@@ -85,7 +84,7 @@ export const CreatePet: React.FC = () => {
      // Subir archivo al servidor
       axios.post('https://apihuellapptest.up.railway.app/api/pets/create', formData, {
         headers: {
-            Authorization: Bearer ${user.accessToken}
+            Authorization: `Bearer ${user.accessToken}`
         }
     })
     .then((response) => {
@@ -97,7 +96,6 @@ export const CreatePet: React.FC = () => {
   };
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
 
   
 
