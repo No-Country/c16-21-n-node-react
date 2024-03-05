@@ -145,7 +145,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /api/pets/all:
+  /api/pets:
     get:
       summary: Obtiene todas las mascotas de la BDD.
       tags:
@@ -295,5 +295,6 @@ components:
         message:
           type: string
           description: Descripción del error.
+
 
 
