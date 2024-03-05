@@ -7,6 +7,8 @@
     import { Error } from "../components/Error";
 import { RescuePasword } from "../pages/RescuePasword";
 import {CreatePet} from "../pages/CreatePet.tsx"
+import { Userperfil } from "../pages/Userperfil.tsx";
+import { Petprofile } from "../pages/Petprofile.tsx";
 
 
      export const router = createHashRouter([
@@ -42,6 +44,15 @@ import {CreatePet} from "../pages/CreatePet.tsx"
           {
             path:"/create",
             element:<CreatePet/>
+          },
+          {
+            path:"/profile",
+            element:<Userperfil/>
+
+          },
+          {
+            path:"/petprofile",
+            element:<Petprofile/>
           }
         ],
       },

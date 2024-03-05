@@ -4,6 +4,13 @@ import LogoHuella from "../assets/LogoHuella.png";
 
 export const Home = () => {
 
+
+
+
+
+
+  
+
   return (
     <div>
       <section className="flex flex-col justify-center">
@@ -19,7 +26,7 @@ export const Home = () => {
         <div className="mb-5">
 
           <p className=" m-auto text-center  flex flex-col  text-5xl font-bold font- mt-4">
-            encontra a tus macotas,
+            encontra a tus mascotas,
             <span className="text-orange-huella">Rapido</span>
           </p>
 
@@ -41,6 +48,15 @@ export const Home = () => {
       {/* <HomeLists > */}
         
       {/* </HomeLists> */}
+
+
+        <section>
+          <h1>estoy logueado</h1>
+        </section>
+
+
+
+
 
 
     </div>

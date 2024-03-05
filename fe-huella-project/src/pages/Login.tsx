@@ -3,9 +3,6 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../components/AuthContext";
-
 
 
 
@@ -58,7 +55,8 @@ export const Login: React.FC = () => {
    
    <label>Email</label>
     <input type="email" placeholder="Email" {...register("email", { required: true })} className="w-200 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
-   <p>Olvidé mi contraseña</p>
+   
+   <Link to="/rescuepassword">Olvidé mi contraseña</Link>
    
    <label>Contraseña</label>
    
