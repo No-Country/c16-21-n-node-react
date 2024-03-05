@@ -24,7 +24,7 @@ export const HomeLists = () => {
   const [pets, setPets] = useState<Array<pet>>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/pets").then((res) => {
+    axios.get("https://apihuellapptest.up.railway.app/api/pets").then((res) => {
       setPets(res.data);
     });
     
