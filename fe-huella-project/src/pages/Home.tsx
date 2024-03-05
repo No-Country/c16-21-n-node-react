@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import LogoHuella from "../assets/LogoHuella.png";
-import { HomeLists } from "../components/HomeLists";
+//import { HomeLists } from "../components/HomeLists";
 
 export const Home = () => {
 
@@ -45,9 +45,9 @@ export const Home = () => {
 
       </section>
 
-      <HomeLists >
+      {/* <HomeLists > */}
         
-      </HomeLists>
+      {/* </HomeLists> */}
 
 
         <section>
