@@ -45,11 +45,20 @@ _Menciona las herramientas que utilizaste para crear tu proyecto_
 
 ## Tecnologias usadas 📄
 
-Trello
-Vercel
-Firgma
-Jira
-Confluence
+* **Desarrollo**
+  * React.js
+  * Node.js
+  * PostgreSQL
+  * Typescript 
+* **Testing**
+  * Jira
+  * Confluence 
+* **Diseño**
+  * Figma
+* **Organización**
+  * Trello
+* **Despliegue**
+  * Vercel
 
 ## Expresiones de Gratitud 🎁
 
