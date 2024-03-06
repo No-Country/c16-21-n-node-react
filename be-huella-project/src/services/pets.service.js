@@ -76,11 +76,18 @@ const createPet = async (pet, image, user) => {
     ...pet,
     photo: pet.photo ? pet.photo : uploadedImageUrl,
     userId: user.id,
-    necklace: Boolean(pet.necklace),
+    necklace: pet.necklace === 'false' ? false : Boolean(pet.necklace),
     when: when,
   };
   const createdPet = await petsPrisma.createPet(newPet);
   return createdPet;
 };
 
-export { getAllPets, getPetById, deletePet, updatePet, createPet, getAllPetsFilter };
+export {
+  getAllPets,
+  getPetById,
+  deletePet,
+  updatePet,
+  createPet,
+  getAllPetsFilter,
+};
