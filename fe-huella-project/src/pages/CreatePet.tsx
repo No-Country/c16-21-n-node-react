@@ -12,7 +12,7 @@ interface CreateFormValues {
   name: string;
     race: string;
     type: string;
-    photo: string,
+    image: File,
   location: string;
   gender: string;
   lostOrFound:string;
@@ -23,11 +23,15 @@ interface CreateFormValues {
 }
 export const CreatePet: React.FC = () => {
   const { register ,handleSubmit } = useForm<CreateFormValues>();
+  const [uploadedFile, setUploadedFile] = useState(''); 
+  
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
       console.log(file);
-      // Aquí puedes enviar el archivo al servidor o hacer lo que necesites con el mismo
+
+
+      //  el archivo al servidor o hacer lo que necesites con el mismo
     }
   });
   const navigate = useNavigate();
@@ -43,6 +47,7 @@ const onSubmit: SubmitHandler<CreateFormValues> =(data) => {
 
 
 
+
     formData.append("name", data.name);
     formData.append("race", data.race);
     formData.append("type", data.type);
@@ -53,7 +58,7 @@ const onSubmit: SubmitHandler<CreateFormValues> =(data) => {
     formData.append("weight", String(data.weight));
     formData.append("age", String(data.age));
     formData.append("when", data.when);
-    formData.append("when", data.when);
+    formData.append('image', data.image);
 
 
     axios.post("https://apihuellapptest.up.railway.app/api/pets/create", formData, {
@@ -69,7 +74,7 @@ const onSubmit: SubmitHandler<CreateFormValues> =(data) => {
       });
   };
 
- const [uploadedFile, setUploadedFile] = useState('');
+
  
 // const onDrop = (acceptedFiles: File[]) => {
 //   const file = acceptedFiles[0];
@@ -134,14 +139,14 @@ const onSubmit: SubmitHandler<CreateFormValues> =(data) => {
    
             <label>photo</label>
             <div {...getRootProps()} style={{ border: '1px solid black', padding: '20px', margin: '20px 0' }}>
-        <input {...getInputProps()}         />
+            <input {...getInputProps()} placeholder="imagen photo mascota"{...register("image", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
+      
+    
         <p>Arrastra y suelta una imagen aquí, o haz clic para seleccionarla.</p>
       </div>
-      {uploadedFile && (
-  <div>
-    <img src={uploadedFile} alt="Vista previa de la imagen" style={{ width: "200px", height: "auto" }} />
-  </div>
-)}
+      {uploadedFile && <img src={uploadedFile} alt="Vista previa de la imagen" style={{ width: "200px", height: "auto" }} />
+ 
+}
 
             {/* <input type="photo" placeholder="imagen photo perfil"  {...register("photo", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
             */}
