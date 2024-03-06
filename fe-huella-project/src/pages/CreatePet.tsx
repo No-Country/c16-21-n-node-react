@@ -1,18 +1,18 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
-// import { useMutation } from "react-query";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import dogCreate from "../assets/imagecreatePet.png";
 import { useAuth } from "../components/AuthContext";
 import { useEffect, useState } from "react";
- import { useDropzone } from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 
 
 interface CreateFormValues {
   name: string;
     race: string;
     type: string;
-    image: File,
+    photo: string,
   location: string;
   gender: string;
   lostOrFound:string;
@@ -21,52 +21,79 @@ interface CreateFormValues {
     age: number;
     when: string;
 }
+
 export const CreatePet: React.FC = () => {
-  const { register ,handleSubmit } = useForm<CreateFormValues>();
-  const [uploadedFile, setUploadedFile] = useState(''); 
-  
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
-      console.log(file);
-
-
-      //  el archivo al servidor o hacer lo que necesites con el mismo
-    }
-  });
+  const { register, handleSubmit } = useForm<CreateFormValues>();
   const navigate = useNavigate();
-  const { user } = useAuth();
- 
-   // Verificar si el usuario tiene el accessToken al cargar el componente
-  useEffect(() => { if (!user.accessToken) { navigate("/login"); // Redirigir al usuario a la página de login si no tiene accessToken
+  const { user } = useAuth(); // Verificar si el usuario tiene el accessToken al cargar el componente 
+  useEffect(() => { if (!user.accessToken) { navigate("/login"); // Redirigir al usuario a la página de login si no tiene accessToken 
 } }, [user.accessToken , navigate]);
 
 
-const onSubmit: SubmitHandler<CreateFormValues> =(data) => {
+
+
+
+
+
+
+
+
+  const { mutate } = useMutation(
+    async (data: CreateFormValues) => {
+  
+      const response = await axios.post("https://apihuellapptest.up.railway.app/api/pets/create", data, {
+        headers: {
+            Authorization: `Bearer ${user.accessToken}`
+        }
+    });
+   
+      console.log(response.data);
+    }
+  );
+
+
+
+
+  const onSubmit: SubmitHandler<CreateFormValues> = (data) => {
+    
+  
+    mutate(data, {
+      onSuccess: () => {
+        console.log("Mascota creada con éxito");
+        navigate("/");
+      },
+      onError: (error) => {
+        console.error("Error al crear la mascota: ", error);
+      },
+    });
+  };
+
+  const [uploadedFile, setUploadedFile] = useState('');
+
+  const onDrop = (acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
     const formData = new FormData();
-
-
-
-
-    formData.append("name", data.name);
-    formData.append("race", data.race);
-    formData.append("type", data.type);
-    formData.append("location", data.location);
-    formData.append("gender", data.gender);
-    formData.append("lostOrFound", data.lostOrFound);
-    formData.append("necklace", String(data.necklace));
-    formData.append("weight", String(data.weight));
-    formData.append("age", String(data.age));
-    formData.append("when", data.when);
-    formData.append('image', data.image);
-
-
-    axios.post("https://apihuellapptest.up.railway.app/api/pets/create", formData, {
-      headers: { Authorization: `Bearer ${user.accessToken}` },
+    
+    // Agregar los campos del formulario al FormData
+    formData.append('name', ("name"));
+    formData.append('race', ("race"));
+    formData.append('type', ("type"));
+    formData.append('location', ("location"));
+    formData.append('gender', ("gender"));
+    formData.append('lostOrFound', ("lostOrFound"));
+    formData.append('necklace', ("necklace"));
+    formData.append('weight', ("weight"));
+    formData.append('age', ("age"));
+    formData.append('when', ("when"));
+    
+    formData.append('image', file);
+     // Subir archivo al servidor
+      axios.post('https://apihuellapptest.up.railway.app/api/pets/create', formData, {
+        headers: {
+            Authorization: `Bearer ${user.accessToken}`
+        }
     })
-
-
-  .then((response) => {
+    .then((response) => {
           const imageUrl = response.data.url; // Obtener la URL de la imagen subida
           setUploadedFile(imageUrl);
       }).catch((error) => {
@@ -74,20 +101,9 @@ const onSubmit: SubmitHandler<CreateFormValues> =(data) => {
       });
   };
 
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
- 
-// const onDrop = (acceptedFiles: File[]) => {
-//   const file = acceptedFiles[0];
-//   const formData = new FormData();
-//   formData.append('image', file);
-//   console.log(File)
-//   //  manejar los archivos que se han subido al dropzone
-//   console.log(acceptedFiles);
-// };
-
-
-// const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
+  
 
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -108,14 +124,20 @@ const onSubmit: SubmitHandler<CreateFormValues> =(data) => {
     />
 </div>
 
+
+
+
 {/* Subir fotografías en la que el rostro del perro sea visible, hasta X MB */}
 
-<form onSubmit={handleSubmit(onSubmit)}
-           style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "15px", marginTop: "50px" }}>
+
+
+
+          <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "15px", marginTop: "50px" }}>
             <label>Nombre </label>
             <input type="name" placeholder="Nombre de usuario" {...register("name", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
             <label>race</label>
             <input type="race" placeholder="Teléfono" {...register("race", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
+
             <label>type</label>
             <input type="type" placeholder="type" {...register("type", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
          <label>Locacion</label>
@@ -123,6 +145,10 @@ const onSubmit: SubmitHandler<CreateFormValues> =(data) => {
          
             <label>gender</label>
             <input type="gender" placeholder="gender"  {...register("gender", { required: true })}className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
+
+
+
+
             <label>lostOrFound</label>
             <input type="lostOrFound" placeholder="lostOrFound" {...register("lostOrFound", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
             <label>necklace</label>
@@ -131,26 +157,28 @@ const onSubmit: SubmitHandler<CreateFormValues> =(data) => {
 
             <label>weight</label>
             <input type="weight" placeholder="weight"  {...register("weight", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
+
+
             <label>age</label>
             <input type="age" placeholder="age" {...register("age", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
-    
+       
+
             <label>when</label>
             <input type="date" placeholder="when" {...register("when", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
-   
-            <label>photo</label>
-            <div {...getRootProps()} style={{ border: '1px solid black', padding: '20px', margin: '20px 0' }}>
-            <input {...getInputProps()} placeholder="imagen photo mascota"{...register("image", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
-      
-    
-        <p>Arrastra y suelta una imagen aquí, o haz clic para seleccionarla.</p>
-      </div>
-      {uploadedFile && <img src={uploadedFile} alt="Vista previa de la imagen" style={{ width: "200px", height: "auto" }} />
- 
-}
+           
+               <label>photo</label>
+    <div {...getRootProps()} style={{ border: '1px solid black', padding: '20px', margin: '20px 0' }}>
+                    <input {...getInputProps()} placeholder="imagen photo mascota"{...register("photo", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
+                    <p>Arrastra y suelta una imagen aquí, o haz clic para seleccionarla.</p>
+                </div>
+                {uploadedFile && <img src={uploadedFile} alt="uploaded" />}
+
 
             {/* <input type="photo" placeholder="imagen photo perfil"  {...register("photo", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
             */}
             {/* <label>Imagen de la mascota</label> */}
+            
+
             <button type="submit" className="inline-block m-auto text-center w-[105%] rounded-full h-10 mr-auto shadow-md shadow-gray-400 text-sm px-4 py-3 leading-none text-white bg-blue-buttons hover:border-transparent hover:shadow-none hover:text-blue-buttons hover:bg-white mt-30 lg:mt-0" style={{ marginTop: "15px", textAlign: "center" }}>
               Registrar Perfil
             </button>
