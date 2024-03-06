@@ -3,3 +3,5 @@ package-lock.json
 .env
 commands.txt
 src/index.js
+pets.txt
+users.txt
