@@ -70,14 +70,13 @@ const createPet = async (pet, image, user) => {
   if (pet.weight) pet.weight = Number(pet.weight);
   if (pet.age) pet.age = Number(pet.age);
 
-  const when = new Date(pet.when);
+  // const when = new Date(pet.when);
 
   const newPet = {
     ...pet,
     photo: pet.photo ? pet.photo : uploadedImageUrl,
     userId: user.id,
     necklace: pet.necklace === 'false' ? false : Boolean(pet.necklace),
-    when: when,
   };
   const createdPet = await petsPrisma.createPet(newPet);
   return createdPet;
