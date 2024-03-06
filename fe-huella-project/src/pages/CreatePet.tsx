@@ -4,14 +4,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import dogCreate from "../assets/imagecreatePet.png";
 import { useAuth } from "../components/AuthContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
  import { useDropzone } from 'react-dropzone';
 
 interface CreateFormValues {
   name: string;
     race: string;
     type: string;
-    photo: File,
+    image: string,
   location: string;
   gender: string;
   lostOrFound:string;
@@ -24,13 +24,15 @@ export const CreatePet: React.FC = () => {
   const { register ,handleSubmit } = useForm<CreateFormValues>();
   const navigate = useNavigate();
   const { user } = useAuth();
- 
+  const [uploadedFile, setUploadedFile] = useState<string | null>(null);
+
    // Verificar si el usuario tiene el accessToken al cargar el componente
   useEffect(() => { if (!user.accessToken) { navigate("/login"); // Redirigir al usuario a la página de login si no tiene accessToken
 } }, [user.accessToken , navigate]);
 
 const onSubmit: SubmitHandler<CreateFormValues> =(data) => {
-    const formData = new FormData();
+ 
+  const formData = new FormData();
 
     formData.append("name", data.name);
     formData.append("race", data.race);
@@ -42,7 +44,7 @@ const onSubmit: SubmitHandler<CreateFormValues> =(data) => {
     formData.append("weight", String(data.weight));
     formData.append("age", String(data.age));
     formData.append("when", data.when);
-    formData.append("photo", data.photo);
+    formData.append("image", data.image);
 
     axios
     .post("https://apihuellapptest.up.railway.app/api/pets/create", formData, {
@@ -57,12 +59,33 @@ const onSubmit: SubmitHandler<CreateFormValues> =(data) => {
     });
 };
 
-
-
 const onDrop = (acceptedFiles: File[]) => {
-  // Aquí puedes manejar los archivos que se han subido al dropzone
-  console.log(acceptedFiles);
+  
+  const file = acceptedFiles[0];
+  const formData = new FormData();
+  
+  formData.append("image", file);
+
+  axios.post('https://apihuellapptest.up.railway.app/api/pets/create', formData,
+  
+  
+  
+  {
+    headers: {
+      Authorization: `Bearer ${user.accessToken}`
+    }
+  })
+    .then((response) => {
+      const imageUrl = response.data.url;
+      setUploadedFile(imageUrl);
+    }).catch((error) => {
+      console.error('Error al subir la imagen: ', error);
+    });
 };
+
+const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
+
 
 
   return (
@@ -129,17 +152,12 @@ const onDrop = (acceptedFiles: File[]) => {
 
 
 
-            <div {...useDropzone({ onDrop })} style={{ border: '2px dashed #333', padding: '20px', textAlign: 'center', cursor: 'pointer' }}>
+            <div {...getRootProps()} style={{ border: '2px dashed #333', padding: '20px', textAlign: 'center', cursor: 'pointer' }}>
             Arrastra y suelta una imagen aquí, o haz clic para seleccionar un archivo
-         
-            <label>image</label>
-            <input type="image" placeholder="photo" {...register("photo", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
-            </div>
-            {/* <input type="photo" placeholder="imagen photo perfil"  {...register("photo", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
-            */}
-            {/* <label>Imagen de la mascota</label> */}
-           
-
+          </div>
+          <label>image</label>
+          <input {...getInputProps()} placeholder="imagen photo mascota" {...register("image", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400" />
+          {uploadedFile && <img src={uploadedFile} alt="uploaded" />}
 
 
 
