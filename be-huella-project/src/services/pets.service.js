@@ -52,7 +52,6 @@ const updatePet = async (pid, newPet, image, uid) => {
 
 const createPet = async (pet, image, user) => {
   if (
-    !pet.type ||
     !pet.when ||
     !pet.gender ||
     !pet.necklace ||
@@ -77,6 +76,7 @@ const createPet = async (pet, image, user) => {
     photo: pet.photo ? pet.photo : uploadedImageUrl,
     userId: user.id,
     necklace: pet.necklace === 'false' ? false : Boolean(pet.necklace),
+    type: 'dog',
   };
   const createdPet = await petsPrisma.createPet(newPet);
   return createdPet;
