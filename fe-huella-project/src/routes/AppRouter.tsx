@@ -9,6 +9,8 @@ import { RescuePasword } from "../pages/RescuePasword";
 import { CreatePet } from "../pages/CreatePet.tsx";
 import { Userprofile } from "../pages/Userprofile.tsx";
 import { Petprofile } from "../pages/Petprofile.tsx";
+import { LostList } from "../pages/LostList.tsx";
+import { FoundList } from "../pages/FoundList.tsx";
 
 export const router = createHashRouter([
   {
@@ -51,6 +53,15 @@ export const router = createHashRouter([
         path: "petprofile",
         element: <Petprofile />,
       },
+      {
+        path:"lostpets",
+        element:<LostList/>
+
+      },
+      {
+        path:"foundedpets",
+        element:<FoundList/>
+      }
     ],
   },
 ]);
