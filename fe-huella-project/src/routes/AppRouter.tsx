@@ -46,11 +46,11 @@ export const router = createHashRouter([
         element: <CreatePet />,
       },
       {
-        path: "userprofile",
+        path: "/userprofile",
         element: <Userprofile />,
       },
       {
-        path: "petprofile",
+        path: "/petprofile",
         element: <Petprofile />,
       },
       {
