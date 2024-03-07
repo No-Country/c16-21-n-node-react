@@ -58,4 +58,11 @@ const createPet = async (req, res, next) => {
   }
 };
 
-export { getAllPets, getPetById, createPet, deletePet, updatePet, getAllPetsFilter };
+export {
+  getAllPets,
+  getPetById,
+  createPet,
+  deletePet,
+  updatePet,
+  getAllPetsFilter,
+};
