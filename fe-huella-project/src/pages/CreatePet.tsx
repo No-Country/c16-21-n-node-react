@@ -3,10 +3,9 @@ import axios from "axios";
 // import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import dogCreate from "../assets/imagecreatePet.png";
-// import { useAuth } from "../components/AuthContext";
-// import { useEffect } from "react";
 import { useAuth } from "../components/AuthContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 
 
 interface CreateFormValues {
@@ -26,6 +25,8 @@ interface CreateFormValues {
 export const CreatePet: React.FC = () => {
   const { register, handleSubmit } = useForm<CreateFormValues>();
   const navigate = useNavigate();
+  const { user } = useAuth();
+
 
   const onSubmit: SubmitHandler<CreateFormValues> = async (data) => {
     if (isNaN(new Date(data.when).getTime())) {
@@ -74,9 +75,53 @@ export const CreatePet: React.FC = () => {
       console.log(data)
     }
   };
+const [races, setRaces] = useState<string[]>([]);
 
+// Agrega dentro del componente, antes del return
+useEffect(() => {
+  const fetchRaces = async () => {
+    try {
+      const response = await fetch('https://dog.ceo/api/breeds/list/all');
+      const { message } = await response.json();
+      const allRaces = Object.keys(message).sort();
+      setRaces(allRaces);
+    } catch (error) {
+      console.error('Error al obtener las razas:', error);
+    }
+  };
 
+  fetchRaces();
+}, []);
 
+const [locations, setLocations] = useState<string[]>([]);
+// Define tipos para las respuestas de la API de localidades
+interface LocationApiResponse {
+  localidades: {
+    nombre: string;
+  }[];
+}
+// Agrega dentro del componente, antes del return
+// En el useEffect para localidades
+const fetchLocations = async () => {
+  try {
+    const response = await fetch(
+      'https://apis.datos.gob.ar/georef/api/localidades?max=4037'
+    );
+
+    const { localidades }: LocationApiResponse = await response.json();
+    const nombres = localidades.map((objeto) => objeto.nombre).sort();
+    const nombresOrdenados = [...nombres].filter(
+      (nombre, index, array) => array.indexOf(nombre) === index
+    );
+    setLocations(nombresOrdenados);
+  } catch (error) {
+    console.error('Error al obtener los datos:', error);
+  }
+};
+// Llama a fetchLocations al menos una vez
+useEffect(() => {
+  fetchLocations();
+}, []);
 
   return (
     <div
@@ -139,14 +184,19 @@ export const CreatePet: React.FC = () => {
             {...register("name", { required: true })}
             className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
           />
-          <label>race</label>
-          <input
-            type="race"
-            placeholder="Teléfono"
-            {...register("race", { required: true })}
-            className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
-          />
 
+
+          <label>race</label>
+         <select
+  {...register("race", { required: true })}
+  className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
+>
+  {races.map((race) => (
+    <option key={race} value={race}>
+      {race}
+    </option>
+  ))}
+</select>
           <label>type</label>
           <input
             type="type"
@@ -155,35 +205,48 @@ export const CreatePet: React.FC = () => {
             className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
           />
           <label>Locacion</label>
-          <input
-            type="location"
-            placeholder="location"
-            {...register("location", { required: true })}
-            className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
-          />
+          <select
+  {...register("location", { required: true })}
+  className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
+>
+  {locations.map((location) => (
+    <option key={location} value={location}>
+      {location}
+    </option>
+  ))}
+</select>
 
           <label>gender</label>
-          <input
-            type="gender"
-            placeholder="gender"
-            {...register("gender", { required: true })}
-            className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
-          />
+          <select
+  {...register("gender", { required: true })}
+  className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
+>
+  <option value="male">Masculino</option>
+  <option value="female">Femenino</option>
+</select>
+
+
+
 
           <label>lostOrFound</label>
-          <input
-            type="lostOrFound"
-            placeholder="lostOrFound"
-            {...register("lostOrFound", { required: true })}
-            className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
-          />
+          <select
+  {...register("lostOrFound", { required: true })}
+  className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
+>
+  <option value="lost">Perdido</option>
+  <option value="found">Encontrado</option>
+</select>
+
+
+
           <label>necklace</label>
-          <input
-            type="necklace"
-            placeholder="necklace"
-            {...register("necklace", { required: true })}
-            className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
-          />
+          <select
+  {...register("necklace", { required: true })}
+  className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
+>
+  <option value="true">Sí</option>
+  <option value="false">No</option>
+</select>
 
           <label>weight</label>
           <input
