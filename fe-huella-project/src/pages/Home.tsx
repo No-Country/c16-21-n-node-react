@@ -68,14 +68,15 @@ export const Home = () => {
 
 
           </div>
-
-          <button className="  align-center m-auto inline-block  text-center  w-[25%] rounded-full h-10    shadow-md shadow-gray-400   text-sm px-4 py-3 leading-none text-white bg-blue-buttons  hover:border-transparent hover:shadow-none hover:text-blue-buttons hover:bg-white  lg:mt-0">
-            encontre una mascota perdida
-          </button>
-
+          
+          <Link to="/create" className="block text-center">
+  <button className="align-center m-auto inline-block text-center w-[25%] rounded-full h-10 shadow-md shadow-gray-400 text-sm px-4 py-3 leading-none text-white bg-blue-buttons hover:border-transparent hover:shadow-none hover:text-blue-buttons hover:bg-white lg:mt-0">
+    Encontre una Mascota Perdida
+  </button> 
+</Link>
           <div>
             <h1 className=" m-10 text-center font-bold text-4xl">
-              mis mascotas
+              Mis Mascotas
             </h1>
 
             <div>

@@ -1,35 +1,41 @@
 import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation } from "react-query";
-//import fotoperro from "../assets/perroImagen.jpg"
 
 interface CreateFormValues {
-    name: string;
-    race: string;
-    type: string;
-    photo: string;
-    location: string;
-    gender: string;
-    lostOrFound: string;
-    necklace: boolean;
-    weight: number;
-    age: number;
-    when: string;
-  }
+  id: string;
+  name: string;
+  race: string;
+  type: string;
+  photo: string;
+  location: string;
+  gender: string;
+  lostOrFound: string;
+  necklace: boolean;
+  weight: number;
+  age: number;
+  when: string;
+}
 
 export const Petprofile = () => {
 
-    const { register, handleSubmit } = useForm<CreateFormValues>();
+  const { register, handleSubmit } = useForm<CreateFormValues>();
 
-
-    
   const { mutate } = useMutation(async (data: CreateFormValues) => {
-    const response = await axios.post(
-      "https://apihuellapptest.up.railway.app/api/pets/create",
-      data
-    );
-    console.log(response.data);
+    const { id } = data;
+
+    try {
+      const response = await axios.get(
+        `https://apihuellapptest.up.railway.app/api/pets/${id}`
+      );
+
+      console.log(response.data);
+
+    } catch (error) {
+      console.error("Error al obtener la mascota: ", error);
+    }
   });
+
 
     
 
