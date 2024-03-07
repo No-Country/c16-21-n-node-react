@@ -68,7 +68,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /api/pets/update:
+  /api/pets/update/{pid}:
     put:
       summary: Actualiza los datos de la mascota en la BDD.
       tags:
@@ -129,7 +129,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error" 
-  /api/pets/delete:
+  /api/pets/delete/{pid}:
     delete:
       summary: Elimina la mascota de la BDD.
       tags:
