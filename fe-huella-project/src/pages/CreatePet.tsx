@@ -3,8 +3,11 @@ import axios from "axios";
 // import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import dogCreate from "../assets/imagecreatePet.png";
+// import { useAuth } from "../components/AuthContext";
+// import { useEffect } from "react";
 import { useAuth } from "../components/AuthContext";
 import { useEffect } from "react";
+
 
 interface CreateFormValues {
   name: string;
