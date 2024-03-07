@@ -28,6 +28,7 @@ export const DogCard = ({pet} : Props ) => {
       <div className="px-6 py-4">
         
       <ul>
+
           <li>{pet.name}</li>
           <li>{pet.race}</li>
           <li>{pet.type}</li>

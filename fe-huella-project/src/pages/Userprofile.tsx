@@ -7,7 +7,7 @@ import axios from "axios";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import userimg from "../assets/User001 (1).png"
-
+import { useAuth } from "../components/AuthContext";
 
 
 interface pet {
@@ -37,47 +37,85 @@ interface pet {
    
   }
 
-
-export const Userprofile = () => {
+  // ac1d31db-0947-4689-943e-4fe3e87ab4dd
+  export const Userprofile = () => {
     const navigate = useNavigate();
-    const [pets,setPets] = useState<Array<pet>>([])
-    const { register, handleSubmit } = useForm<RegisterFormValues>();
+    const [pets, setPets] = useState<Array<pet>>([]);
+    const { register, handleSubmit, setValue } = useForm<RegisterFormValues>();
+    const { user } = useAuth();
+    console.log(user);
 
-
-
-    const { mutate } = useMutation(
-        async (data: RegisterFormValues) => {
-          const response = await axios.post("https://apihuellapptest.up.railway.app/api/users/signin", data);
-          console.log(response.data);
-        }
-      );
-
-
-      const onSubmit: SubmitHandler<RegisterFormValues> = (data) => {
-        mutate(data, {
-          onSuccess: () => {
-            console.log("Registro exitoso");
-            navigate("/login");
-          },
-          onError: (error) => {
-            console.error("Error en el registro: ", error);
-          },
-        });
-      };
-     
-
+console.log(user.accessToken)
 
     useEffect(() => {
-        axios.get("http://localhost:3000/pets").then((res) => {
+      // console.log("User context:", user);
+    
+      const fetchUserData = async () => {
+           // Lógica para obtener y mostrar los datos del usuario.
+          // solicitud GET a la API para obtener los datos del usuario
+           try {
+          const res = await axios.get(`https://apihuellapptest.up.railway.app/api/users/${user.id}`,
+          // Extrae los datos del usuario de la respuesta
+      
+          {
+            headers: {
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+          }
+         )
+          const userData = res.data;
+           // Itera sobre las claves del objeto userData
+          Object.keys(userData).forEach((key) => {
+           // Utiliza setValue del hook useForm para establecer el valor en el campo correspondiente del formulario
+            setValue(key as keyof RegisterFormValues, userData[key]);
+          });
+        } catch (error) {
+          console.error("Error al obtener datos del usuario: ", error);
+        }
+      };
+  
+      const fetchPets = async () => {
+         // Lógica para obtener y mostrar las mascotas.
+        try {
+          const res = await axios.get("https://apihuellapptest.up.railway.app/api/pets");
+          const newArr = res.data.slice(0, 2);
+          setPets(newArr);
+        } catch (error) {
+          console.error("Error al obtener datos de mascotas: ", error);
+        }
+      };
+  
+      fetchUserData();
+      fetchPets();
+    }, [user.id, setValue, setPets]);
+        const { mutate } = useMutation(
+      async () => {
         
-            const newArr = res.data.slice(0,2);
-            setPets(newArr) 
+          try {
 
-        });
+          // console.log(user.id)
+           console.log(user.accessToken)
+          // console.log(user)
         
-      }, []);
+          const response = await axios.put(
+            `https://apihuellapptest.up.railway.app/api/users/update/${user.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${user.accessToken}`,
+              },
+            }
+          );            
+      console.log(response.data)
+        } catch (error) {
+          console.error("Error en la solicitud: ", error);
+        }
+      }
+    );
 
-
+    const onSubmit: SubmitHandler<RegisterFormValues> = () => {
+      mutate();
+    };
+  
 
   return (
     <div className=" flex">
@@ -113,8 +151,8 @@ export const Userprofile = () => {
             <input type="email" placeholder="Email" {...register("email", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded border border-gray-400" />
 
 
-            <label>Imagen de Perfil</label>
-            <input type="profilePic" placeholder="imagen de perfil"  {...register("profilePic", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded border border-gray-400" />
+            {/* <label>Imagen de Perfil</label>
+            <input type="profilePic" placeholder="imagen de perfil"  {...register("profilePic", { required: true })} className="w-500 h-250 p-15 pl-24 pr-302 rounded border border-gray-400" /> */}
 
 
             <label>Locacion</label>

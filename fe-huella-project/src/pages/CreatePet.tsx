@@ -7,7 +7,6 @@ import { useAuth } from "../components/AuthContext";
 import { useEffect, useState } from "react";
 
 
-
 interface CreateFormValues {
   name: string;
   race: string;
@@ -21,6 +20,7 @@ interface CreateFormValues {
   age: number;
   when: string;
 }
+
 
 export const CreatePet: React.FC = () => {
   const { register, handleSubmit } = useForm<CreateFormValues>();
@@ -75,9 +75,13 @@ export const CreatePet: React.FC = () => {
       console.log(data)
     }
   };
+
+
+
+  //esto es tanto de razas y localidades, para realizar el select con las apis
 const [races, setRaces] = useState<string[]>([]);
 
-// Agrega dentro del componente, antes del return
+// antes del return
 useEffect(() => {
   const fetchRaces = async () => {
     try {
