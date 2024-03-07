@@ -1,4 +1,5 @@
 paths:
+
   /api/pets/create:
     post:
       summary: Envía los datos de la mascota para almacenarla en la BDD.
@@ -185,6 +186,52 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  paths:
+  /api/find/{race}/{type}/{gender}/{location}/{lostOrFound}:
+    get:
+      tags:
+        - Pets
+      summary: Obtiene todas las mascotas filtradas según los parámetros especificados.
+      parameters:
+        - in: path
+          name: race
+          required: false
+          schema:
+            type: string
+          description: Raza de la mascota a buscar.
+        - in: path
+          name: type
+          required: false
+          schema:
+            type: string
+          description: Tipo de mascota.
+        - in: path
+          name: gender
+          required: false
+          schema:
+            type: string
+          description: Género de la mascota.
+        - in: path
+          name: location
+          required: false
+          schema:
+            type: string
+          description: Ubicación donde se encuentra la mascota.
+        - in: path
+          name: lostOrFound
+          required: false
+          schema:
+            type: string
+          description: Estado de la mascota ('lost' para perdida, 'found' para encontrada).
+      responses:
+        '200':
+          description: Respuesta exitosa. Devuelve las mascotas filtradas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
 components:
   responses:
     OK:
