@@ -21,7 +21,7 @@ interface Props{
 
 export const DogCard = ({pet} : Props ) => {
 
-  console.log(pet)
+
 
 
 
