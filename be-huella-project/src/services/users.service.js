@@ -68,7 +68,10 @@ const userUpdate = async (newUser, image, uid) => {
   if (userById.id !== uid)
     throw new Errors.Unathorized('Dont have credentials to update this user');
 
-  if (image) uploadedImageUrl = await uploadImage(image[0]);
+  if (image) {
+    uploadedImageUrl = await uploadImage(image);
+    user.profilePic = uploadedImageUrl;
+  }
 
   Object.keys(newUser).forEach((key) => {
     if (newUser[key] === '' || newUser[key] === undefined) {
