@@ -7,9 +7,17 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext";
 import { Link } from "react-router-dom";
 
+
 interface LoginFormValues {
   email: string;
   password: string;
+}
+
+
+interface UserResponse {
+  id: string;
+  accessToken: string;
+  email:string
 }
 
 
@@ -18,20 +26,21 @@ export const Login: React.FC = () => {
   const navigate = useNavigate();
   const { setUser } = useAuth();
 
+
   const { mutate } = useMutation(async (data: LoginFormValues) => {
     const response = await axios.post(
       "https://apihuellapptest.up.railway.app/api/users/login",
-      data
-    );
+      data );
     console.log(response.data);
     const accessToken = response.data.accessToken;
     const id = response.data.user.id;
 const email=response.data.user.email
-
+const userId=response.data.user.userId
     console.log(id);
     console.log(email)
-    setUser({ accessToken, id ,email});
+    setUser({ accessToken, id ,email,userId});
   });
+
 
   const onSubmit: SubmitHandler<LoginFormValues> = (data) => {
     mutate(data, {
@@ -54,6 +63,7 @@ const email=response.data.user.email
           Ingresar
         </h1>
 
+
         <form
           onSubmit={handleSubmit(onSubmit)}
           style={{
@@ -73,7 +83,9 @@ const email=response.data.user.email
           />
           <p>Olvidé mi contraseña</p>
 
+
           <label>Contraseña</label>
+
 
           <input
             type="password"
@@ -81,6 +93,7 @@ const email=response.data.user.email
             {...register("password", { required: true })}
             className="w-500 h-250 p-15 pl-24 pr-302 rounded-12 border border-gray-400"
           />
+
 
           <button
             type="submit"
@@ -110,3 +123,5 @@ const email=response.data.user.email
     </div>
   );
 };
+
+
