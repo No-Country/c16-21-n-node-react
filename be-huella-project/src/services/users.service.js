@@ -37,9 +37,13 @@ const userCreate = async (user, image) => {
       `The password should contain At least one lowercase letter. At least one uppercase letter. At least one digit. At least one special character and Minimum length of 8 characters.`
     );
   }
+  const imageUser = image[0];
+  console.log(imageUser);
+  console.log(image);
+  
   user.password = encryptPass(user.password);
-  if (image) {
-    const uploadedImageUrl = await uploadImage(image);
+  if (imageUser) {
+    const uploadedImageUrl = await uploadImage(imageUser);
     user.profilePic = uploadedImageUrl;
   }
   if (user.admin) {
