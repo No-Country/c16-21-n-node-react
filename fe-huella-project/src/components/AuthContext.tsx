@@ -2,7 +2,8 @@ import { createContext, useContext, useState, ReactNode } from "react";
 
 interface User {
  id: string;
-  accessToken: string;
+accessToken: string;
+
 }
 
 interface AuthContextType {
