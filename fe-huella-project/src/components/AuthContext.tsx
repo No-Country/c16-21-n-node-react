@@ -1,17 +1,21 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
+
 interface User {
  id: string;
 accessToken: string;
-
+email: string;
 }
+
 
 interface AuthContextType {
   user: User;
   setUser: (user: User) => void;
 }
 
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -21,8 +25,12 @@ export const useAuth = () => {
   return context;
 };
 
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User>({ id:"" , accessToken: "" });
+  const [user, setUser] = useState<User>({ id: "", accessToken: "", email: "" });
+
+
+
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
@@ -30,3 +38,4 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     </AuthContext.Provider>
   );
 };
+

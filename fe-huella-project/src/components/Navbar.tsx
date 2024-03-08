@@ -6,7 +6,6 @@ import { useAuth } from "./AuthContext";
 export const Navbar = () => {
   const { user } = useAuth();
 
-
   return (
     <nav className=" p-6 flex   justify-between">
       <Link className="mt-4" to={"/"}>

@@ -4,7 +4,6 @@ import { useAuth } from "../components/AuthContext";
 import axios from "axios";
 import { useNavigate, useParams, } from "react-router-dom";
 
-
 interface petDetail {
   name: string;
   race: string;
@@ -66,6 +65,9 @@ export const Detail: React.FC = () => {
     return <p>Cargando detalles de la mascota...</p>;
   }
 
+  const userEmail=user.email
+  console.log(user.email)
+  console.log(user)
   return (
       //  
       <section className="flex justify-center bg-gray-100 p-8">
@@ -93,9 +95,11 @@ export const Detail: React.FC = () => {
       <div className="w-[50] ml-4">
         {/* <img className="w-full rounded-lg" src={perro} alt="Perro" /> */}
       <img className="w-[30rem]" src={perro} alt="" />
-        <button className="mt-4 bg-orange-huella text-white px-4 py-2 rounded-md" type="submit">
-          Contacta al dueño
-        </button>
+      <button className="mt-4 bg-orange-huella text-white px-4 py-2 rounded-md" type="submit">
+        <a href={`mailto:${userEmail}`} target="_blank" rel="noopener noreferrer">
+          Contacta al dueño Correo Electronico:{userEmail}
+        </a>
+      </button>
       </div>
     </section>
  

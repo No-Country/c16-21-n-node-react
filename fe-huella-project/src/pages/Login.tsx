@@ -15,6 +15,7 @@ interface LoginFormValues {
 interface UserResponse {
   id: string;
   accessToken: string;
+  email:string
 }
 
 export const Login: React.FC = () => {
@@ -30,9 +31,11 @@ export const Login: React.FC = () => {
     console.log(response.data);
     const accessToken = response.data.accessToken;
     const id = response.data.user.id;
+const email=response.data.user.email
 
     console.log(id);
-    setUser({ accessToken, id });
+    console.log(email)
+    setUser({ accessToken, id ,email});
   });
 
   const onSubmit: SubmitHandler<LoginFormValues> = (data) => {
