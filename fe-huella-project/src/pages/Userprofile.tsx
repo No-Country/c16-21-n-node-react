@@ -5,7 +5,7 @@ import { DogCreateCard } from "../components/DogCreateCard";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import userimg from "../assets/User001 (1).png"
 import { useAuth } from "../components/AuthContext";
 
@@ -39,7 +39,7 @@ interface pet {
 
   // ac1d31db-0947-4689-943e-4fe3e87ab4dd
   export const Userprofile = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [pets, setPets] = useState<Array<pet>>([]);
     const { register, handleSubmit, setValue } = useForm<RegisterFormValues>();
     const { user } = useAuth();

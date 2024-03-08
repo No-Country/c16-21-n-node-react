@@ -12,10 +12,12 @@ interface LoginFormValues {
   password: string;
 }
 
-interface UserResponse {
-  id: string;
-  accessToken: string;
-}
+// interface UserResponse {
+//   id: string;
+//   accessToken: string;
+// }
+
+
 export const Login: React.FC = () => {
   const { register, handleSubmit } = useForm<LoginFormValues>();
   const navigate = useNavigate();
