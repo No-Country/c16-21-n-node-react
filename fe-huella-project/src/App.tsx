@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// import React from "react";
+// import { AuthProvider } from "./components/AuthContext";
 
-function App() {
-  const [count, setCount] = useState(0)
+// const App: React.FC = () => {
+//   return (
+//     <AuthProvider>
+//       {/* Aquí va el resto de tu aplicación */}
+//     </AuthProvider>
+//   );
+// };
 
+// export default App;
+
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes/AppRouter";
+import { QueryClient, QueryClientProvider } from "react-query";
+import {AuthProvider} from "./components/AuthContext"; // Importa el proveedor de autenticación
+
+const queryClient = new QueryClient();
+
+export const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider > {/* Agrega el proveedor de autenticación alrededor de tu aplicación */}
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+};
 
-export default App
+
+
+
+
+
+//ASI DEFINI ANTERIORMENTE
+// import {RouterProvider} from "react-router-dom";
+// import { router } from "./routes/AppRouter";
+// import { QueryClient, QueryClientProvider } from "react-query";
+
+// const queryClient = new QueryClient()
+
+// export const App = () => {
+//   return (
+//     <QueryClientProvider client={queryClient}>
+//         <RouterProvider router={router}/>
+//     </QueryClientProvider>
+//   )
+// }
