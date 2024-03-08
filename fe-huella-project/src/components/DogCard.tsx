@@ -1,5 +1,4 @@
-//import perroImagen from '../assets/perroImagen.jpg'
-import { Link } from 'react-router-dom';
+
 interface Props{
       pet:{
         id: string,

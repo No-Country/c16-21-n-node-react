@@ -12,11 +12,6 @@ interface LoginFormValues {
   password: string;
 }
 
-interface UserResponse {
-  id: string;
-  accessToken: string;
-  email:string
-}
 
 export const Login: React.FC = () => {
   const { register, handleSubmit } = useForm<LoginFormValues>();

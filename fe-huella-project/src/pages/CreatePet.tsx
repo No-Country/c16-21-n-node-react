@@ -126,6 +126,9 @@ export const CreatePet: React.FC = () => {
   //  Este enfoque asegura que la llamada a la API y la actualización del estado se realicen de manera eficiente
   //  y controlada cuando el componente se monta.
 
+
+//a ver 
+
   return (
     <div
       style={{
