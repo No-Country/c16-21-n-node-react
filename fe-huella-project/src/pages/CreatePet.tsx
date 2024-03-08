@@ -23,6 +23,13 @@ interface CreateFormValues {
 export const CreatePet: React.FC = () => {
   const { register, handleSubmit } = useForm<CreateFormValues>();
   const navigate = useNavigate();
+  const { user } = useAuth(); // Verificar si el usuario tiene el accessToken al cargar el componente 
+
+
+  useEffect(()=>{
+    if (!user.accessToken) { navigate("/login");}
+  },[user.accessToken,navigate])
+
 
   const onSubmit: SubmitHandler<CreateFormValues> = async (data) => {
     if (isNaN(new Date(data.when).getTime())) {
