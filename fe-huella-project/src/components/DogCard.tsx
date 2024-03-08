@@ -1,4 +1,4 @@
-
+import { Link } from 'react-router-dom';
 interface Props{
       pet:{
         id: string,
@@ -17,7 +17,9 @@ interface Props{
         createdAt: string
       }
 
+
 }
+
 
 export const DogCard = ({pet} : Props ) => {
  return (
@@ -39,3 +41,5 @@ export const DogCard = ({pet} : Props ) => {
 </div>
 );
 };
+
+

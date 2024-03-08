@@ -1,11 +1,16 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
 
+
+
 interface User {
  id: string;
 accessToken: string;
 email: string;
+userId:string;
 }
+
+
 
 
 interface AuthContextType {
@@ -14,7 +19,11 @@ interface AuthContextType {
 }
 
 
+
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+
 
 
 export const useAuth = () => {
@@ -26,8 +35,14 @@ export const useAuth = () => {
 };
 
 
+
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User>({ id: "", accessToken: "", email: "" });
+  const [user, setUser] = useState<User>({ id: "", accessToken: "", email: "",userId:"" });
+
+
+
+
 
 
 
@@ -38,4 +53,5 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     </AuthContext.Provider>
   );
 };
+
 
