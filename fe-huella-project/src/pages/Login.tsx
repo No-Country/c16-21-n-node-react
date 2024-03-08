@@ -14,11 +14,11 @@ interface LoginFormValues {
 }
 
 
-interface UserResponse {
-  id: string;
-  accessToken: string;
-  email:string
-}
+// interface UserResponse {
+//   id: string;
+//   accessToken: string;
+//   email:string
+// }
 
 
 export const Login: React.FC = () => {
