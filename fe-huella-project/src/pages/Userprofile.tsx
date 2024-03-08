@@ -88,7 +88,13 @@ console.log(user.accessToken)
       fetchUserData();
       fetchPets();
     }, [user.id, setValue, setPets]);
-        const { mutate } = useMutation(
+        
+    
+    
+    
+    
+    
+    const { mutate } = useMutation(
       async () => {
         
           try {

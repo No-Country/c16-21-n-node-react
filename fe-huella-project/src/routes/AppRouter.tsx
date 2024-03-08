@@ -65,7 +65,7 @@ export const router = createHashRouter([
         element:<FoundList/>
       },
       {
-        path: "/detail",
+        path: "/detail/:id",
         element: <Detail />,
       },
     ],
