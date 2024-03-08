@@ -62,13 +62,13 @@ const userUpdate = async (newUser, image, uid) => {
   }
 
   const userById = await usersPrisma.findUser({ id: uid });
-
+  
   let uploadedImageUrl;
 
   if (userById.id !== uid)
     throw new Errors.Unathorized('Dont have credentials to update this user');
 
-  if (image) uploadedImageUrl = await uploadImage(image);
+  if (image) uploadedImageUrl = await uploadImage(image[0]);
 
   Object.keys(newUser).forEach((key) => {
     if (newUser[key] === '' || newUser[key] === undefined) {
