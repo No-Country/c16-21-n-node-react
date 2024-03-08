@@ -13,6 +13,23 @@ import { useAuth } from "../components/AuthContext";
 
 
 interface RegisterFormValues {
+  id:string;
+  pets:{
+    id: string,
+        name: string,
+        race: string,
+        type: string,
+        photo: string,
+        location: string,
+        gender: string,
+        lostOrFound: string,
+        userId: string,
+        necklace:boolean,
+        weight: number,
+        age: number,
+        when: string,
+        createdAt: string
+  }
   username: string;
   password: string;
   phone: string;
@@ -33,8 +50,7 @@ export const Userprofile = () => {
 
   const { user } = useAuth();
   
-  const [userData , setUserdata] = useState()  //datos del usuario 
-
+  const [userData , setUserdata] = useState <RegisterFormValues>()  //datos del usuario 
 
   useEffect(() => {
    
