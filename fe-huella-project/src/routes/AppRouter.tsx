@@ -11,6 +11,8 @@ import { Userprofile } from "../pages/Userprofile.tsx";
 import { Petprofile } from "../pages/Petprofile.tsx";
 import { LostList } from "../pages/LostList.tsx";
 import { FoundList } from "../pages/FoundList.tsx";
+import {Detail} from "../pages/Detail.tsx";
+
 
 export const router = createHashRouter([
   {
@@ -61,7 +63,11 @@ export const router = createHashRouter([
       {
         path:"foundedpets",
         element:<FoundList/>
-      }
+      },
+      {
+        path: "/detail",
+        element: <Detail />,
+      },
     ],
   },
 ]);

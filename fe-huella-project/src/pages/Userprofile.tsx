@@ -97,8 +97,9 @@ console.log(user.accessToken)
            console.log(user.accessToken)
           // console.log(user)
         
-          const response = await axios.put(
-            `https://apihuellapptest.up.railway.app/api/users/update/${user.id}`,
+          const response = await axios.put
+          (
+            `https://apihuellapptest.up.railway.app/api/users/update`,
             {
               headers: {
                 Authorization: `Bearer ${user.accessToken}`,

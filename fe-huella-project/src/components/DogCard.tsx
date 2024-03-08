@@ -1,4 +1,5 @@
 //import perroImagen from '../assets/perroImagen.jpg'
+import { Link } from 'react-router-dom';
 interface Props{
       pet:{
         id: string,
@@ -33,8 +34,13 @@ export const DogCard = ({pet} : Props ) => {
           <li>{pet.race}</li>
           <li>{pet.type}</li>
         </ul>
+ 
       </div>
-    
+      <Link to={"/detail"}>
+          <button className="bg-blue-500 text-white py-2 px-4 rounded-full">
+            Ver Detalle
+          </button>
+        </Link> 
   </div>
     
   )
