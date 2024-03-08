@@ -35,7 +35,7 @@ const deleteUser = async (user) => {
 const updateUser = async (user) => {
   const result = await prisma.users.update({
     where: { id: user.id },
-    data: user,
+    data: { ...user },
   });
   return result;
 };
