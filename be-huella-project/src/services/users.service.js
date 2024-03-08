@@ -42,6 +42,7 @@ const userCreate = async (user, image) => {
     const uploadedImageUrl = await uploadImage(image);
     user.profilePic = uploadedImageUrl;
   }
+
   if (user.admin) {
     user.admin = Boolean(user.admin);
   }
@@ -70,7 +71,7 @@ const userUpdate = async (newUser, image, uid) => {
 
   if (image) {
     uploadedImageUrl = await uploadImage(image);
-    user.profilePic = uploadedImageUrl;
+    newUser.profilePic = uploadedImageUrl;
   }
 
   Object.keys(newUser).forEach((key) => {
