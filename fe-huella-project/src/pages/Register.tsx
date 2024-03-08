@@ -9,7 +9,7 @@ interface RegisterFormValues {
   username: string;
   password: string;
   phone: string;
-  // profilePic?: string; // Hacer profilePic opcional con el operador "?"
+  profilePic?: string; // Hacer profilePic opcional con el operador "?"
   location: string;
   email: string;
  

@@ -2,6 +2,8 @@ import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation } from "react-query";
 
+
+
 interface CreateFormValues {
   id: string;
   name: string;
@@ -26,9 +28,16 @@ export const Petprofile = () => {
 
     try {
       const response = await axios.get(
-        `https://apihuellapptest.up.railway.app/api/pets/${id}`
-      );
-
+        `https://apihuellapptest.up.railway.app/api/pets/${id}`,
+      
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${user.accessToken}`,
+      //   },
+      // } // va a necesitar estar autenticado, asi quee tendree que agarra por user.id
+     
+);
+      
       console.log(response.data);
 
     } catch (error) {
