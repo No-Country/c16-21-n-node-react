@@ -37,13 +37,9 @@ const userCreate = async (user, image) => {
       `The password should contain At least one lowercase letter. At least one uppercase letter. At least one digit. At least one special character and Minimum length of 8 characters.`
     );
   }
-  const imageUser = image[0];
-  console.log(imageUser);
-  console.log(image);
-  
   user.password = encryptPass(user.password);
-  if (imageUser) {
-    const uploadedImageUrl = await uploadImage(imageUser);
+  if (image) {
+    const uploadedImageUrl = await uploadImage(image);
     user.profilePic = uploadedImageUrl;
   }
   if (user.admin) {
@@ -69,11 +65,16 @@ const userUpdate = async (newUser, image, uid) => {
   
   let uploadedImageUrl;
 
+  const imageUser = image[0];
+  console.log(imageUser);
+  console.log(image);
+  
+
   if (userById.id !== uid)
     throw new Errors.Unathorized('Dont have credentials to update this user');
 
-  if (image) {
-    uploadedImageUrl = await uploadImage(image);
+  if (imageUser) {
+    uploadedImageUrl = await uploadImage(imageUser);
     user.profilePic = uploadedImageUrl;
   }
 
