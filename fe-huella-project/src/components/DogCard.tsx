@@ -1,4 +1,7 @@
 import { Link } from 'react-router-dom';
+//tomi
+
+
 interface Props{
       pet:{
         id: string,
@@ -25,6 +28,7 @@ export const DogCard = ({pet} : Props ) => {
  return (
  
   <div className="m-4 w-[14rem] h-[20rem] max-w-md rounded-3xl overflow-hidden shadow-lg">
+    <Link to={`/detail/${pet.id}`}>
   <img className="w-full h-[60%] object-cover" src={pet.photo} alt="Mascota" />
   <div className="px-6 py-4">
     <ul>
@@ -33,10 +37,8 @@ export const DogCard = ({pet} : Props ) => {
       <li>{pet.type}</li>
     </ul>
   </div>
-  <Link to={`/detail/${pet.id}`}>
-  <button className="bg-blue-500 text-white py-2 px-6 rounded-full">
-            Ver Detalle
-          </button>
+  
+  
   </Link>
 </div>
 );
