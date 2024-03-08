@@ -10,6 +10,7 @@ router.get(
   petsController.getAllPetsFilter
 );
 router.get('/:pid', isAuth, petsController.getPetById);
+router.get('/details/:pid', petsController.getPetById);
 router.post('/create', isAuth, upload, petsController.createPet);
 router.put('/update/:pid', upload, isAuth, petsController.updatePet);
 router.delete('/delete/:pid', isAuth, petsController.deletePet);
